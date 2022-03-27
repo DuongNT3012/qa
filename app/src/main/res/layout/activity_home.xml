@@ -149,8 +149,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_20"
-           ads:srcCompat="@drawable/ic_scan_active_2"
             android:visibility="gone"
+            ads:srcCompat="@drawable/ic_scan_active_2"
             app:layout_constraintBottom_toTopOf="@+id/text_view_scan"
             app:layout_constraintEnd_toEndOf="@+id/constraint_layout_scan_container"
             app:layout_constraintStart_toStartOf="@+id/constraint_layout_scan_container"
@@ -184,9 +184,9 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="@dimen/toolbar_height"
-            android:visibility="gone"
             android:background="@drawable/gradient_title_bar_primary_color_and_accent_color"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:visibility="gone"
             app:contentInsetStartWithNavigation="@dimen/margin_0"
             app:layout_constraintBottom_toTopOf="@+id/coordinator_layout_fragment_container"
             app:layout_constraintEnd_toEndOf="parent"
@@ -197,22 +197,21 @@
             android:id="@+id/coordinator_layout_fragment_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toTopOf="@+id/coordinator_layout_icon_extra_part_container"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="21dp"
+            android:scaleType="fitXY"
             ads:srcCompat="@drawable/ic_setting_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
