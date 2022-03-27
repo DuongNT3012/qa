@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_70"
+                android:background="@drawable/bg_code_scaner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Code Scanner"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text_view_set_flash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_rectangle"
+                android:drawableLeft="@drawable/ic_flash_off_2"
+                android:gravity="center"
+                android:paddingVertical="@dimen/padding_10"
+                android:paddingLeft="15dp"
+                android:paddingRight="60dp"
+                android:text="@string/flash"
+                android:textColor="#484848"
+                app:layout_constraintBottom_toTopOf="@+id/barcode_view"
+                app:layout_constraintEnd_toStartOf="@+id/text_view_scan_gallery"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                tools:text="Flash" />
+
+            <TextView
+                android:id="@+id/text_view_scan_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rectangle"
+                android:drawableLeft="@drawable/ic_gallery_2"
+                android:gravity="center"
+                android:paddingVertical="@dimen/padding_10"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/scan_gallery"
+                android:textColor="#484848"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_set_flash"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/text_view_set_flash"
+                app:layout_constraintTop_toTopOf="@+id/text_view_set_flash"
+                tools:text="Scan Gallery" />
+
+            <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                android:id="@+id/barcode_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_32"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_set_flash" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

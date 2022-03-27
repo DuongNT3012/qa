@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:background="@drawable/bg_dialog_feedback"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feedback"
+        android:textColor="#212121"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/edt_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start|top"
+        android:hint="Enter title"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_edit_text"
+        android:imeOptions="actionDone"
+        android:textColor="#484848"
+        android:textSize="14sp"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:padding="10dp" />
+    <EditText
+        android:id="@+id/edt_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#484848"
+        android:gravity="start|top"
+        android:layout_marginTop="@dimen/margin_13"
+        android:hint="Enter content"
+        android:lines="3"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="14dp"
+        android:background="@drawable/bg_edit_text"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:padding="10dp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginHorizontal="14dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btn_no"
+            android:layout_width="75dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@drawable/btn_cancel_feedback"
+            android:textColor="#A5A5A5"
+            android:checked="false"
+            android:gravity="center" />
+
+        <RadioButton
+            android:id="@+id/btn_yes"
+            android:layout_width="75dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/btn_send_feedback"
+            app:layout_constraintStart_toEndOf="@+id/appCompatButton"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RadioGroup>
+</LinearLayout>
