@@ -9,28 +9,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeActivity">
 
-<!--        <com.google.android.gms.ads.AdView-->
-<!--            android:id="@+id/adView"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/white"-->
-<!--            ads:adSize="SMART_BANNER"-->
-<!--            ads:adUnitId="@string/admob_test_banner_ad_unit_id"-->
-<!--            ads:layout_constraintBottom_toBottomOf="parent"-->
-<!--            ads:layout_constraintEnd_toEndOf="parent"-->
-<!--            ads:layout_constraintStart_toStartOf="parent"-->
-<!--            ads:layout_constraintTop_toBottomOf="@+id/constraint_layout_generate_container" />-->
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            ads:adSize = "BANNER"
-            ads:adUnitId = "@string/ad_banner_all"
-            />
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout_icon_extra_part_container"
             android:layout_width="0dp"
@@ -47,7 +25,6 @@
             android:layout_height="@dimen/height_56"
             android:background="@color/white"
             ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintBottom_toTopOf="@+id/adView"
             app:layout_constraintEnd_toStartOf="@+id/constraint_layout_scan_container"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"

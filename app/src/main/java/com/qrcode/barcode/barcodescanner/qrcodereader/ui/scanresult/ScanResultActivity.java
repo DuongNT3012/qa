@@ -65,8 +65,6 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
     private Menu mToolbarMenu;
     private Code mCurrentCode;
     private boolean mIsHistory, mIsPickedFromGallery;
-    //ads
-    NativeAd nativeAd;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -99,8 +97,6 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_scan_result);
         setCompositeDisposable(new CompositeDisposable());
-//        playAd();
-//        checkInternetConnection();
 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -112,155 +108,8 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         setListeners();
         setBack();
         getSetting();
-        //add ads
-        addAdsBanner();
-        showNativeAd();
         //
     }
-
-    //add ads banner
-    private void addAdsBanner(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mBinding.adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-
-            }
-
-            @Override
-            public void onAdOpened() {
-
-            }
-
-            @Override
-            public void onAdLoaded() {
-                mBinding.adView.setOnPaidEventListener(new OnPaidEventListener() {
-                    @Override
-                    public void onPaidEvent(@NonNull AdValue adValue) {
-                        VAppUtility.logAdAdmobValue(adValue,
-                                mBinding.adView.getAdUnitId(),
-                                mBinding.adView.getResponseInfo().getMediationAdapterClassName(),
-                                mFirebaseAnalytics);
-                    }
-                });
-            }
-
-            @Override
-            public void onAdClicked() {
-
-            }
-        });
-
-
-        mBinding.adView.loadAd(adRequest);
-
-    }
-    //
-    //ads native
-    private void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
-        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
-        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
-        adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
-
-        ((TextView) Objects.requireNonNull(adView.getHeadlineView())).setText(nativeAd.getHeadline());
-        Objects.requireNonNull(adView.getMediaView()).setMediaContent(Objects.requireNonNull(nativeAd.getMediaContent()));
-
-
-        if (nativeAd.getBody() == null) {
-            Objects.requireNonNull(adView.getBodyView()).setVisibility(View.INVISIBLE);
-
-        } else {
-            adView.getBodyView().setVisibility(View.VISIBLE);
-            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-        }
-        if (nativeAd.getCallToAction() == null) {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
-        } else {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
-            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
-        }
-        if (nativeAd.getIcon() == null) {
-            Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
-        } else {
-            ((ImageView) Objects.requireNonNull(adView.getIconView())).setImageDrawable(nativeAd.getIcon().getDrawable());
-            adView.getIconView().setVisibility(View.VISIBLE);
-        }
-
-        if (nativeAd.getStarRating() == null) {
-            Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
-        } else {
-            ((RatingBar) Objects.requireNonNull(adView.getStarRatingView())).setRating(nativeAd.getStarRating().floatValue());
-            adView.getStarRatingView().setVisibility(View.VISIBLE);
-        }
-
-        adView.setNativeAd(nativeAd);
-
-
-    }
-    private void showNativeAd() {
-        AdLoader.Builder builder = new AdLoader.Builder(this, getString(R.string.ad_native_scanresult));
-        builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-            @Override
-            public void onNativeAdLoaded(NativeAd unifiedNativeAd) {
-                if (nativeAd != null) {
-                    nativeAd.destroy();
-                }
-                nativeAd = unifiedNativeAd;
-                FrameLayout frameLayout = findViewById(R.id.fl_native);
-                NativeAdView adView = (NativeAdView) getLayoutInflater().inflate(R.layout.ad_ads, null);
-
-                populateUnifiedNativeAdView(unifiedNativeAd, adView);
-                frameLayout.removeAllViews();
-                frameLayout.addView(adView);
-
-            }
-        }).build();
-        NativeAdOptions adOptions = new NativeAdOptions.Builder().build();
-        builder.withNativeAdOptions(adOptions);
-        AdLoader adLoader = builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-            }
-        }).build();
-
-        adLoader.loadAd(new AdRequest.Builder().build());
-
-    }
-    //end
 
     private void getSetting() {
         mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
@@ -270,49 +119,6 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
             }
         });
     }
-//    private void playAd() {
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mBinding.adView.loadAd(adRequest);
-//        mBinding.adView.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdLoaded() {
-//            }
-//
-//            @Override
-//            public void onAdFailedToLoad(int errorCode) {
-//                mBinding.adView.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onAdOpened() {
-//            }
-//
-//            @Override
-//            public void onAdLeftApplication() {
-//            }
-//
-//            @Override
-//            public void onAdClosed() {
-//            }
-//        });
-//    }
-//    private void checkInternetConnection() {
-//        CompositeDisposable disposable = new CompositeDisposable();
-//        disposable.add(ReactiveNetwork
-//                .observeNetworkConnectivity(this)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(connectivity -> {
-//                    if (connectivity.state() == NetworkInfo.State.CONNECTED ) {
-//                        mBinding.adView.setVisibility(View.VISIBLE);
-//                    }else {
-//                        mBinding.adView.setVisibility(View.GONE);
-//                    }
-//
-//                }, throwable -> {
-//                    Toast.makeText(this,  getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-//                }));
-//    }
 
     private void setListeners() {
         mBinding.textViewOpenInBrowser.setOnClickListener(this);

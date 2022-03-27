@@ -42,6 +42,7 @@ import com.qrcode.barcode.barcodescanner.qrcodereader.ui.scanresult.ScanResultAc
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+
 import com.qrcode.barcode.barcodescanner.qrcodereader.R;
 import com.qrcode.barcode.barcodescanner.qrcodereader.databinding.FragmentHistoryBinding;
 
@@ -52,9 +53,6 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     private CompositeDisposable mCompositeDisposable;
     private ItemTouchHelper mItemTouchHelper;
     private HistoryAdapter mAdapter;
-
-    //ads
-    private InterstitialAd mInterstitialAd;
     Code code;
     private FirebaseAnalytics mFirebaseAnalytics;
     //
@@ -133,21 +131,12 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
         //
-        //ads
-        MobileAds.initialize(mContext, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                createPersonalizedAd();
-            }
-        });
-        //
     }
     //
 
     @Override
     public void onResume() {
         super.onResume();
-        createPersonalizedAd();
     }
 
     //
@@ -165,86 +154,11 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     public void onItemClick(View view, Code item, int position) {
 
         code = item;
-        Log.d("codeResult",code+"");
-        if (mInterstitialAd != null) {
+        Log.d("codeResult", code + "");
 
-            mInterstitialAd.show(getActivity());
-        } else {
-            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            Intent intent = new Intent(mContext, ScanResultActivity.class);
-            intent.putExtra(IntentKey.MODEL, item);
-            intent.putExtra(IntentKey.IS_HISTORY, true);
-            startActivity(intent);
-        }
-
-        /*Intent intent = new Intent(mContext, ScanResultActivity.class);
+        Intent intent = new Intent(mContext, ScanResultActivity.class);
         intent.putExtra(IntentKey.MODEL, item);
         intent.putExtra(IntentKey.IS_HISTORY, true);
-        startActivity(intent);*/
+        startActivity(intent);
     }
-
-    //add ads inter splash
-    private void createPersonalizedAd(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        createInterstitialAd(adRequest);
-    }
-    private void createInterstitialAd(AdRequest adRequest){
-        InterstitialAd.load(mContext,getString(R.string.ad_inter_scanresult), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-
-                        //log event
-                        mInterstitialAd.setOnPaidEventListener(new OnPaidEventListener() {
-                            @Override
-                            public void onPaidEvent(@NonNull AdValue adValue) {
-                                VAppUtility.logAdAdmobValue(adValue,
-                                        mInterstitialAd.getAdUnitId(),
-                                        mInterstitialAd.getResponseInfo().getMediationAdapterClassName(),
-                                        mFirebaseAnalytics);
-                            }
-                        });
-                        //
-
-                        Log.i("TAG", "onAdLoaded");
-                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                // Called when fullscreen content is dismissed.
-                                Log.d("TAG", "The ad was dismissed.");
-                                Intent intent = new Intent(mContext, ScanResultActivity.class);
-                                intent.putExtra(IntentKey.MODEL, code);
-                                intent.putExtra(IntentKey.IS_HISTORY, true);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                                // Called when fullscreen content failed to show.
-                                Log.d("TAG", "The ad failed to show.");
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                // Called when fullscreen content is shown.
-                                // Make sure to set your reference to null so you don't
-                                // show it a second time.
-                                mInterstitialAd = null;
-                                Log.d("TAG", "The ad was shown.");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.i("TAG", loadAdError.getMessage());
-                        mInterstitialAd = null;
-                    }
-                });
-    }
-    //
 }

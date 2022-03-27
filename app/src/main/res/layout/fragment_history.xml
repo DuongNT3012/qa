@@ -12,24 +12,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/img_top"
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
                 android:background="@drawable/bg_title_setting"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="36dp"
                 android:text="@string/toolbar_title_history"
                 android:textColor="@color/white"
                 android:textSize="20dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="36dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,13 +64,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".5"
-                        app:srcCompat="@drawable/ic_empty"
                         app:layout_anchor="@+id/recycler_view_history"
                         app:layout_anchorGravity="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_empty" />
 
                     <TextView
                         android:id="@+id/text_view_no_item_placeholder"
@@ -79,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/no_item"
-                        android:textColor="@color/text_regular"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_body"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

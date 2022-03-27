@@ -63,7 +63,7 @@
 
     <!--History page-->
     <string name="code_scan">%s Scan</string>
-    <string name="no_item">No Data Found</string>
+    <string name="no_item">No history here</string>
 
     <!--Picked image from gallery page-->
     <string name="get_value">Get value</string>

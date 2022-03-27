@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
     /**
      * Constants
      */
-    private final int SPLASH_DELAY = 5000;
+    private final int SPLASH_DELAY = 3000;
 
     /**
      * Fields
@@ -43,7 +43,6 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView mImageViewLogo;
     private TextView mtvSplash;
 
-    private InterstitialAd mInterstitialAd;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -55,15 +54,6 @@ public class SplashActivity extends AppCompatActivity {
 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //
-
-        //ads
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                createPersonalizedAd();
-            }
-        });
         //
 
         initializeViews();
@@ -84,16 +74,8 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void goToMainPage() {
         new Handler().postDelayed(() -> {
-            /*startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-            finish();*/
-            if (mInterstitialAd != null) {
-
-                mInterstitialAd.show(SplashActivity.this);
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                finish();
-            }
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            finish();
         }, SPLASH_DELAY);
     }
 
@@ -107,67 +89,4 @@ public class SplashActivity extends AppCompatActivity {
         mImageViewLogo.startAnimation(fadeInAnimation);
         mtvSplash.startAnimation(fadeInAnimation);
     }
-
-    //add ads inter splash
-    private void createPersonalizedAd(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        createInterstitialAd(adRequest);
-    }
-    private void createInterstitialAd(AdRequest adRequest){
-        InterstitialAd.load(this,getString(R.string.ad_inter_splash), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-
-                        //log event
-                        mInterstitialAd.setOnPaidEventListener(new OnPaidEventListener() {
-                            @Override
-                            public void onPaidEvent(@NonNull AdValue adValue) {
-                                VAppUtility.logAdAdmobValue(adValue,
-                                        mInterstitialAd.getAdUnitId(),
-                                        mInterstitialAd.getResponseInfo().getMediationAdapterClassName(),
-                                        mFirebaseAnalytics);
-                            }
-                        });
-                        //
-
-                        Log.i("TAG", "onAdLoaded");
-                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                // Called when fullscreen content is dismissed.
-                                Log.d("TAG", "The ad was dismissed.");
-                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                                finish();
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                                // Called when fullscreen content failed to show.
-                                Log.d("TAG", "The ad failed to show.");
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                // Called when fullscreen content is shown.
-                                // Make sure to set your reference to null so you don't
-                                // show it a second time.
-                                mInterstitialAd = null;
-                                Log.d("TAG", "The ad was shown.");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.i("TAG", loadAdError.getMessage());
-                        mInterstitialAd = null;
-                    }
-                });
-    }
-    //
 }

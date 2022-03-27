@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--ID TEST-->
+    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="ad_inter_splash">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_appopen_resume">ca-app-pub-3940256099942544/3419835294</string>
     <string name="ad_native_exit">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_inter_generate">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="ad_inter_scanresult">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="ad_native_settings">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ad_native_scanresult">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ad_native_createQR">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ad_native_savedQR">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
     <!-- END-->
 </resources>

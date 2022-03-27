@@ -48,4 +48,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="CustomAlertDialogPermission" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

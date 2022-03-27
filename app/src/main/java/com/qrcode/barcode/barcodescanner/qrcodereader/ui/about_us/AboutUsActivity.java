@@ -1,5 +1,6 @@
 package com.qrcode.barcode.barcodescanner.qrcodereader.ui.about_us;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.qrcode.barcode.barcodescanner.qrcodereader.BuildConfig;
 import com.qrcode.barcode.barcodescanner.qrcodereader.R;
 import com.qrcode.barcode.barcodescanner.qrcodereader.databinding.ActivityAboutUsBinding;
 
@@ -19,6 +21,7 @@ public class AboutUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mActivityAboutUsBinding = DataBindingUtil.setContentView(this, R.layout.activity_about_us);
         initializeToolbar();
+        mActivityAboutUsBinding.textViewAboutVersion.setText("Version" + ": " + BuildConfig.VERSION_NAME);
         setBack();
     }
 

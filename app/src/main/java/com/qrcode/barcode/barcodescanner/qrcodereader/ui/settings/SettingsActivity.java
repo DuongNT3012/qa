@@ -33,6 +33,7 @@ import com.google.android.gms.ads.nativead.MediaView;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.qrcode.barcode.barcodescanner.qrcodereader.Constant;
 import com.qrcode.barcode.barcodescanner.qrcodereader.VAppUtility;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.constant.PreferenceKey;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.util.SharedPrefUtil;
@@ -48,8 +49,6 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     private ActivitySettingsBinding mBinding;
-    //ads
-    NativeAd nativeAd;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -65,158 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         loadSettings();
         setListeners();
         setBack();
-
-        //add ads
-        addAdsBanner();
-        showNativeAd();
-        //
     }
-
-    //add ads banner
-    private void addAdsBanner(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mBinding.adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-
-            }
-
-            @Override
-            public void onAdOpened() {
-
-            }
-
-            @Override
-            public void onAdLoaded() {
-
-                mBinding.adView.setOnPaidEventListener(new OnPaidEventListener() {
-                    @Override
-                    public void onPaidEvent(@NonNull AdValue adValue) {
-                        VAppUtility.logAdAdmobValue(adValue,
-                                mBinding.adView.getAdUnitId(),
-                                mBinding.adView.getResponseInfo().getMediationAdapterClassName(),
-                                mFirebaseAnalytics);
-                    }
-                });
-            }
-
-            @Override
-            public void onAdClicked() {
-
-            }
-        });
-
-        mBinding.adView.loadAd(adRequest);
-
-    }
-    //
-
-    //ads native
-    private void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
-        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
-        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
-        adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
-
-        ((TextView) Objects.requireNonNull(adView.getHeadlineView())).setText(nativeAd.getHeadline());
-        Objects.requireNonNull(adView.getMediaView()).setMediaContent(Objects.requireNonNull(nativeAd.getMediaContent()));
-
-
-        if (nativeAd.getBody() == null) {
-            Objects.requireNonNull(adView.getBodyView()).setVisibility(View.INVISIBLE);
-
-        } else {
-            adView.getBodyView().setVisibility(View.VISIBLE);
-            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-        }
-        if (nativeAd.getCallToAction() == null) {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
-        } else {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
-            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
-        }
-        if (nativeAd.getIcon() == null) {
-            Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
-        } else {
-            ((ImageView) Objects.requireNonNull(adView.getIconView())).setImageDrawable(nativeAd.getIcon().getDrawable());
-            adView.getIconView().setVisibility(View.VISIBLE);
-        }
-
-        if (nativeAd.getStarRating() == null) {
-            Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
-        } else {
-            ((RatingBar) Objects.requireNonNull(adView.getStarRatingView())).setRating(nativeAd.getStarRating().floatValue());
-            adView.getStarRatingView().setVisibility(View.VISIBLE);
-        }
-
-        adView.setNativeAd(nativeAd);
-
-
-    }
-    private void showNativeAd() {
-        AdLoader.Builder builder = new AdLoader.Builder(this, getString(R.string.ad_native_settings));
-        builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-            @Override
-            public void onNativeAdLoaded(NativeAd unifiedNativeAd) {
-                if (nativeAd != null) {
-                    nativeAd.destroy();
-                }
-                nativeAd = unifiedNativeAd;
-                FrameLayout frameLayout = findViewById(R.id.fl_native);
-                NativeAdView adView = (NativeAdView) getLayoutInflater().inflate(R.layout.ad_ads, null);
-
-                populateUnifiedNativeAdView(unifiedNativeAd, adView);
-                frameLayout.removeAllViews();
-                frameLayout.addView(adView);
-
-            }
-        }).build();
-        NativeAdOptions adOptions = new NativeAdOptions.Builder().build();
-        builder.withNativeAdOptions(adOptions);
-        AdLoader adLoader = builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-            }
-        }).build();
-
-        adLoader.loadAd(new AdRequest.Builder().build());
-
-    }
-    //end
-
 
     private void loadSettings() {
         mBinding.switchCompatPlaySound.setChecked(SharedPrefUtil.readBooleanDefaultTrue(PreferenceKey.PLAY_SOUND));
@@ -347,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uriText = "mailto:" + mail() +
+                String uriText = "mailto:" + Constant.email +
                         "?subject=" + "feedback Qr code" +
                         "&body=" + "Title : " + edt_title.getText() + "\nContent: " + edt_content.getText();
                 Uri uri = Uri.parse(uriText);
@@ -368,11 +216,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             }
         });
         dialog.show();
-    }
-    private String mail(){
-        String mailTest = "hoanganh710pt@gmail.com";
-        String mailThat = "anhnt.android@gmail.com";
-        return mailThat;
     }
 
     private void setBack(){

@@ -1,6 +1,5 @@
 package com.qrcode.barcode.barcodescanner.qrcodereader.ui.generatedcode;
 
-import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,11 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,16 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdValue;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.OnPaidEventListener;
-import com.google.android.gms.ads.formats.NativeAdOptions;
-import com.google.android.gms.ads.nativead.MediaView;
 import com.google.android.gms.ads.nativead.NativeAd;
-import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -55,12 +40,10 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.qrcode.barcode.barcodescanner.qrcodereader.VAppUtility;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.constant.AppConstants;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.constant.IntentKey;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.model.Code;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.util.FileUtil;
-import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.util.PermissionUtil;
 import com.qrcode.barcode.barcodescanner.qrcodereader.helpers.util.ProgressDialogUtil;
 import com.qrcode.barcode.barcodescanner.qrcodereader.ui.settings.SettingsActivity;
 
@@ -69,13 +52,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Objects;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
+
 import com.qrcode.barcode.barcodescanner.qrcodereader.R;
 import com.qrcode.barcode.barcodescanner.qrcodereader.databinding.ActivityGeneratedCodeBinding;
 
@@ -153,156 +136,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         setBack();
         setBtnHome();
         getSetting();
-        //add ads
-        addAdsBanner();
-        showNativeAd();
-        //
     }
-
-    //add ads banner
-    private void addAdsBanner(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mBinding.adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-
-            }
-
-            @Override
-            public void onAdOpened() {
-
-            }
-
-            @Override
-            public void onAdLoaded() {
-
-                mBinding.adView.setOnPaidEventListener(new OnPaidEventListener() {
-                    @Override
-                    public void onPaidEvent(@NonNull AdValue adValue) {
-                        VAppUtility.logAdAdmobValue(adValue,
-                                mBinding.adView.getAdUnitId(),
-                                mBinding.adView.getResponseInfo().getMediationAdapterClassName(),
-                                mFirebaseAnalytics);
-                    }
-                });
-            }
-
-            @Override
-            public void onAdClicked() {
-
-            }
-        });
-
-
-        mBinding.adView.loadAd(adRequest);
-
-    }
-    //
-    //ads native
-    private void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
-        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
-        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
-        adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
-
-        ((TextView) Objects.requireNonNull(adView.getHeadlineView())).setText(nativeAd.getHeadline());
-        Objects.requireNonNull(adView.getMediaView()).setMediaContent(Objects.requireNonNull(nativeAd.getMediaContent()));
-
-
-        if (nativeAd.getBody() == null) {
-            Objects.requireNonNull(adView.getBodyView()).setVisibility(View.INVISIBLE);
-
-        } else {
-            adView.getBodyView().setVisibility(View.VISIBLE);
-            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-        }
-        if (nativeAd.getCallToAction() == null) {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
-        } else {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
-            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
-        }
-        if (nativeAd.getIcon() == null) {
-            Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
-        } else {
-            ((ImageView) Objects.requireNonNull(adView.getIconView())).setImageDrawable(nativeAd.getIcon().getDrawable());
-            adView.getIconView().setVisibility(View.VISIBLE);
-        }
-
-        if (nativeAd.getStarRating() == null) {
-            Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
-        } else {
-            ((RatingBar) Objects.requireNonNull(adView.getStarRatingView())).setRating(nativeAd.getStarRating().floatValue());
-            adView.getStarRatingView().setVisibility(View.VISIBLE);
-        }
-
-        adView.setNativeAd(nativeAd);
-
-
-    }
-    private void showNativeAd() {
-        AdLoader.Builder builder = new AdLoader.Builder(this, getString(R.string.ad_native_savedQR));
-        builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-            @Override
-            public void onNativeAdLoaded(NativeAd unifiedNativeAd) {
-                if (nativeAd != null) {
-                    nativeAd.destroy();
-                }
-                nativeAd = unifiedNativeAd;
-                FrameLayout frameLayout = mBinding.flNative;
-                NativeAdView adView = (NativeAdView) getLayoutInflater().inflate(R.layout.ad_ads, null);
-
-                populateUnifiedNativeAdView(unifiedNativeAd, adView);
-                frameLayout.removeAllViews();
-                frameLayout.addView(adView);
-
-            }
-        }).build();
-        NativeAdOptions adOptions = new NativeAdOptions.Builder().build();
-        builder.withNativeAdOptions(adOptions);
-        AdLoader adLoader = builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-            }
-        }).build();
-
-        adLoader.loadAd(new AdRequest.Builder().build());
-
-    }
-    //end
 
     @Override
     protected void onDestroy() {
@@ -310,7 +144,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         getCompositeDisposable().dispose();
     }
 
-    private void setBack(){
+    private void setBack() {
         mBinding.icBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -319,7 +153,8 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
-    private void  setBtnHome(){
+
+    private void setBtnHome() {
         mBinding.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -328,7 +163,8 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
-    private void getSetting(){
+
+    private void getSetting() {
         mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -403,9 +239,11 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
             ProgressDialogUtil.on().hideProgressDialog();
         }
     }
-    public String getEmojiByUnicode(int unicode){
+
+    public String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
     }
+
     public static String convertStringToUTF8(String s) {
         String out = null;
         try {
@@ -455,39 +293,30 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_view_print:
-                if (PermissionUtil.on().requestPermission(this,
-                        REQUEST_CODE_TO_PRINT, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (getCurrentPrintedFile() == null) {
-                        storeCodeDocument();
-                    } else {
-                        Toast.makeText(this,
-                                getString(R.string.generated_qr_code_already_exists),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                if (getCurrentPrintedFile() == null) {
+                    storeCodeDocument();
+                } else {
+                    Toast.makeText(this,
+                            getString(R.string.generated_qr_code_already_exists),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
 
             case R.id.image_view_save:
-                if (PermissionUtil.on().requestPermission(this,
-                        REQUEST_CODE_TO_SAVE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (getCurrentCodeFile() == null) {
-                        storeCodeImage(true);
-                    } else {
-                        Toast.makeText(this,
-                                getString(R.string.generated_qr_code_already_exists),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                if (getCurrentCodeFile() == null) {
+                    storeCodeImage(true);
+                } else {
+                    Toast.makeText(this,
+                            getString(R.string.generated_qr_code_already_exists),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
 
             case R.id.image_view_share:
-                if (PermissionUtil.on().requestPermission(this,
-                        REQUEST_CODE_TO_SHARE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (getCurrentCodeFile() == null) {
-                        storeCodeImage(false);
-                    } else {
-                        shareCode(getCurrentCodeFile());
-                    }
+                if (getCurrentCodeFile() == null) {
+                    storeCodeImage(false);
+                } else {
+                    shareCode(getCurrentCodeFile());
                 }
                 break;
 

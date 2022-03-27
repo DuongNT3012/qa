@@ -60,12 +60,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
 
     private FragmentGenerateBinding mBinding;
     private Context mContext;
-//    private InterstitialAd mInterstitialAd;
     private String contentRevert;
-
-    //ads
-    NativeAd nativeAd;
-    private InterstitialAd mInterstitialAd;
     private int typeQR;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -89,21 +84,9 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                              Bundle savedInstanceState) {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_generate, container, false);
-//        initializeAd();
 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
-        //
-        //ads
-        MobileAds.initialize(mContext, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                createPersonalizedAd();
-            }
-        });
-
-        //ads native
-        showNativeAd();
         //
 
         setListeners();
@@ -115,20 +98,6 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
     @Override
     public void onResume() {
         super.onResume();
-//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-        //
-        createPersonalizedAd();
-        //
-    }
-
-    private void initializeAd() {
-        if (mContext == null) {
-            return;
-        }
-
-//        mInterstitialAd = new InterstitialAd(mContext);
-//        mInterstitialAd.setAdUnitId(getString(R.string.admob_test_interstitial_ad_unit_id));
     }
 
     private void setListeners() {
@@ -146,34 +115,6 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         });
 
         mBinding.textViewGenerate.setOnClickListener(this);
-
-//        mInterstitialAd.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdLoaded() {
-//                // Code to be executed when an ad finishes loading.
-//            }
-//
-//            @Override
-//            public void onAdFailedToLoad(int errorCode) {
-//                // Code to be executed when an ad request fails.
-//            }
-//
-//            @Override
-//            public void onAdOpened() {
-//                // Code to be executed when the ad is displayed.
-//            }
-//
-//            @Override
-//            public void onAdLeftApplication() {
-//                // Code to be executed when the user has left the app.
-//            }
-//
-//            @Override
-//            public void onAdClosed() {
-//                // Code to be executed when when the interstitial ad is closed.
-//                generateCode();
-//            }
-//        });
     }
 
     private void initializeCodeTypesSpinner() {
@@ -181,8 +122,8 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
 //                R.array.code_types, android.R.layout.simple_spinner_item);
 //        arrayAdapter.setDropDownViewResource(R.layout.item_spinner);
 //        mBinding.spinnerTypes.setAdapter(arrayAdapter);
-        String[] code_types = {"Select Type","QR Code","Bar Code"};
-        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(getActivity(), R.layout.spinner_text,  code_types );
+        String[] code_types = {"Select Type", "QR Code", "Bar Code"};
+        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(getActivity(), R.layout.spinner_text, code_types);
         langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
         mBinding.spinnerTypes.setAdapter(langAdapter);
     }
@@ -195,11 +136,6 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
 
         switch (view.getId()) {
             case R.id.text_view_generate:
-//                if (mInterstitialAd.isLoaded()) {
-//                    mInterstitialAd.show();
-//                } else {
-//                    generateCode();
-//                }
                 generateCode();
                 break;
 
@@ -213,12 +149,12 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         if (mBinding.editTextContent.getText() != null) {
             String content = mBinding.editTextContent.getText().toString().trim();
             try {
-                contentRevert= content;
+                contentRevert = content;
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
             int type = mBinding.spinnerTypes.getSelectedItemPosition();
-            typeQR=type;
+            typeQR = type;
 
             if (!TextUtils.isEmpty(contentRevert) && type != 0) {
 
@@ -251,21 +187,12 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                 if (isValid) {
                     Code code = new Code(contentRevert, type);
                     intent.putExtra(IntentKey.MODEL, code);
-                    if (type == 2 && getSpecialCharacterCount(content) == false){
+                    if (type == 2 && getSpecialCharacterCount(content) == false) {
                         Toast.makeText(mContext,
                                 getString(R.string.invalid_entry),
                                 Toast.LENGTH_SHORT).show();
-                    }else {
-                        //startActivity(intent);
-                        //show ads
-                        if (mInterstitialAd != null) {
-
-
-                            mInterstitialAd.show(getActivity());
-                        } else {
-                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                            startActivity(intent);
-                        }
+                    } else {
+                        startActivity(intent);
                     }
                 }
             } else {
@@ -308,175 +235,12 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         return strRet;
     }
 
-    //add ads inter
-    private void createPersonalizedAd(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        createInterstitialAd(adRequest);
-    }
-    private void createInterstitialAd(AdRequest adRequest){
-        InterstitialAd.load(mContext,getString(R.string.ad_inter_generate), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-
-                        //log event
-                        mInterstitialAd.setOnPaidEventListener(new OnPaidEventListener() {
-                            @Override
-                            public void onPaidEvent(@NonNull AdValue adValue) {
-                                VAppUtility.logAdAdmobValue(adValue,
-                                        mInterstitialAd.getAdUnitId(),
-                                        mInterstitialAd.getResponseInfo().getMediationAdapterClassName(),
-                                        mFirebaseAnalytics);
-                            }
-                        });
-                        //
-
-                        Log.i("TAG", "onAdLoaded");
-                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                // Called when fullscreen content is dismissed.
-                                Log.d("TAG", "The ad was dismissed.");
-                                //generateCode();
-                                startGenerated(contentRevert,typeQR);
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                                // Called when fullscreen content failed to show.
-                                Log.d("TAG", "The ad failed to show.");
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                // Called when fullscreen content is shown.
-                                // Make sure to set your reference to null so you don't
-                                // show it a second time.
-                                mInterstitialAd = null;
-                                Log.d("TAG", "The ad was shown.");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.i("TAG", loadAdError.getMessage());
-                        mInterstitialAd = null;
-                    }
-                });
-    }
     //
-    private void startGenerated(String context,int type){
+    private void startGenerated(String context, int type) {
         Intent intent = new Intent(mContext, GeneratedCodeActivity.class);
         Code code = new Code(context, type);
         intent.putExtra(IntentKey.MODEL, code);
         startActivity(intent);
-    }
-    //ads native
-    private void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
-        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
-        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
-        adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
-
-        ((TextView) Objects.requireNonNull(adView.getHeadlineView())).setText(nativeAd.getHeadline());
-        Objects.requireNonNull(adView.getMediaView()).setMediaContent(Objects.requireNonNull(nativeAd.getMediaContent()));
-
-
-        if (nativeAd.getBody() == null) {
-            Objects.requireNonNull(adView.getBodyView()).setVisibility(View.INVISIBLE);
-
-        } else {
-            adView.getBodyView().setVisibility(View.VISIBLE);
-            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-        }
-        if (nativeAd.getCallToAction() == null) {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
-        } else {
-            Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
-            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
-        }
-        if (nativeAd.getIcon() == null) {
-            Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
-        } else {
-            ((ImageView) Objects.requireNonNull(adView.getIconView())).setImageDrawable(nativeAd.getIcon().getDrawable());
-            adView.getIconView().setVisibility(View.VISIBLE);
-        }
-
-        if (nativeAd.getStarRating() == null) {
-            Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
-        } else {
-            ((RatingBar) Objects.requireNonNull(adView.getStarRatingView())).setRating(nativeAd.getStarRating().floatValue());
-            adView.getStarRatingView().setVisibility(View.VISIBLE);
-        }
-
-        adView.setNativeAd(nativeAd);
-
-
-    }
-    private void showNativeAd() {
-        AdLoader.Builder builder = new AdLoader.Builder(mContext, getString(R.string.ad_native_createQR));
-        builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-            @Override
-            public void onNativeAdLoaded(NativeAd unifiedNativeAd) {
-                if (nativeAd != null) {
-                    nativeAd.destroy();
-                }
-                if (isAdded()) {
-                    nativeAd = unifiedNativeAd;
-                    FrameLayout frameLayout = mBinding.flNative;
-                    NativeAdView adView = (NativeAdView) getLayoutInflater().inflate(R.layout.ad_ads, null);
-
-                    populateUnifiedNativeAdView(unifiedNativeAd, adView);
-                    frameLayout.removeAllViews();
-                    frameLayout.addView(adView);
-
-                }
-
-            }
-        }).build();
-        NativeAdOptions adOptions = new NativeAdOptions.Builder().build();
-        builder.withNativeAdOptions(adOptions);
-        AdLoader adLoader = builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-            }
-        }).build();
-
-        adLoader.loadAd(new AdRequest.Builder().build());
-
     }
     //end
 }
