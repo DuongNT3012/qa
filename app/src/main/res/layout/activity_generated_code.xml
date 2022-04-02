@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
-        <com.qrcode.barcode.barcodescanner.qrcodereader.helpers.widget.BaseStatusBar
+        <com.ntdapp.qrcode.barcode.scanner.helpers.widget.BaseStatusBar
             android:id="@+id/status_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

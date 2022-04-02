@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 31
     defaultConfig {
-        applicationId "com.qrcode.barcode.barcodescanner.qrcodereader"
+        applicationId "com.ntdapp.qrcode.barcode.scanner"
         minSdkVersion 19
         targetSdkVersion 31
         versionCode 100
@@ -16,7 +16,7 @@ android {
         multiDexEnabled true
 
         def formattedDate = new Date().format('MMM.dd.yyyy')
-        archivesBaseName = "CodeScanner_v${versionName}(${versionCode})_${formattedDate}"
+        archivesBaseName = "QRCodeScanner_v${versionName}(${versionCode})_${formattedDate}"
     }
 
     buildTypes {
@@ -92,7 +92,7 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    //implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
 
     //applovin mediation
     implementation 'com.google.ads.mediation:applovin:10.3.3.0'

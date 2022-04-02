@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.qrcode.barcode.barcodescanner.qrcodereader">
+    package="com.ntdapp.qrcode.barcode.scanner">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,7 +44,7 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.splash.SplashActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -56,48 +56,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.generatedcode.GeneratedCodeActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.scanresult.ScanResultActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.pickedfromgallery.PickedFromGalleryActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.pickedfromgallery.PickedFromGalleryActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.about_us.AboutUsActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.about_us.AboutUsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.privacy_policy.PrivayPolicyActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.privacy_policy.PrivayPolicyActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name=".ui.feedback.FeedbackActivity"
+            android:name="com.ntdapp.qrcode.barcode.scanner.ui.feedback.FeedbackActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
 
         <service
-            android:name=".helpers.service.MyFirebaseMessagingService"
+            android:name="com.ntdapp.qrcode.barcode.scanner.helpers.service.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

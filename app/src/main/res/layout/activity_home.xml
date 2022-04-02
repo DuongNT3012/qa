@@ -170,7 +170,7 @@
             app:layout_constraintTop_toTopOf="@+id/constraint_layout_history_container"
             app:layout_constraintVertical_chainStyle="packed" />
 
-        <com.qrcode.barcode.barcodescanner.qrcodereader.helpers.widget.BaseStatusBar
+        <com.ntdapp.qrcode.barcode.scanner.helpers.widget.BaseStatusBar
             android:id="@+id/status_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

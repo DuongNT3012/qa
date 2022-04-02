@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "613255004316",
-    "project_id": "qr-code-s2",
-    "storage_bucket": "qr-code-s2.appspot.com"
+    "project_number": "761590844513",
+    "project_id": "trustqr-434a6",
+    "storage_bucket": "trustqr-434a6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613255004316:android:83d7a40360b053e7b56d59",
+        "mobilesdk_app_id": "1:761590844513:android:0ef9441f07b740da11ee20",
         "android_client_info": {
-          "package_name": "com.qrcode.barcode.barcodescanner.qrcodereader"
+          "package_name": "com.ntdapp.qrcode.barcode.scanner"
         }
       },
       "oauth_client": [
         {
-          "client_id": "613255004316-c2kickpmqm5o51u60rmi2nd3rgfb4704.apps.googleusercontent.com",
+          "client_id": "761590844513-9nv75nuq99mkhhajcjpjk48kijoj9t24.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTYehLJzitJVjhtOjRCdIXaDCgWcHRv2U"
+          "current_key": "AIzaSyAmjO1gX36VYuv15o-h4wZzpvreOD0uVN8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "613255004316-c2kickpmqm5o51u60rmi2nd3rgfb4704.apps.googleusercontent.com",
+              "client_id": "761590844513-9nv75nuq99mkhhajcjpjk48kijoj9t24.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

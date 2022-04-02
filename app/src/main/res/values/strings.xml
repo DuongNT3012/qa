@@ -1,6 +1,6 @@
 <resources>
     <!--App Essentials-->
-    <string name="app_name">Code Scanner</string>
+    <string name="app_name">QR Code Reader - Scanner App</string>
     <string name="file_provider_authority" translatable="false">com.qrcode.barcode.barcodescanner.qrcodereader.fileprovider</string>
 
 
@@ -36,7 +36,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Generated QR Code page-->
-    <string name="toolbar_title_generated_qr_code">Generated QR Code</string>
+    <string name="toolbar_title_generated_qr_code">QR Code - Generator</string>
     <string name="code_type">Type: %s</string>
     <string name="content">Content: %s</string>
     <string name="saved_the_code_successfully">Saved the code successfully</string>
