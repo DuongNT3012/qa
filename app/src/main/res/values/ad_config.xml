@@ -8,6 +8,8 @@
     <string name="inter_scan_result">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_generate">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_native_generate">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_generated_code">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_scan_result">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_native_setting">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_native_exit">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>
@@ -20,6 +22,8 @@
     <string name="inter_scan_result">ca-app-pub-2049543423319084/3449846142</string>
     <string name="inter_generate">ca-app-pub-2049543423319084/2663964818</string>
     <string name="ad_native_generate">ca-app-pub-2049543423319084/8996852146</string>
+    <string name="ad_native_generated_code">ca-app-pub-2049543423319084/3041817889</string>
+    <string name="ad_native_scan_result">ca-app-pub-2049543423319084/3547755353</string>
     <string name="ad_native_setting">ca-app-pub-2049543423319084/8510601137</string>
     <string name="ad_native_exit">ca-app-pub-2049543423319084/7197519460</string>
     <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>-->

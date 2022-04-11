@@ -209,12 +209,12 @@
                     android:id="@+id/fl_native"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginVertical="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                    <include layout="@layout/ads_native_shimmer_large" />
+                </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

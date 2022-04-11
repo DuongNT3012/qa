@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
+import com.amazic.ads.callback.NativeCallback;
+import com.amazic.ads.util.Admod;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
@@ -28,6 +33,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.TimeUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
 import java.io.File;
@@ -82,7 +88,26 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //
+        // load ads native generated code
+        try {
+            Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
+                @Override
+                public void onNativeAdLoaded(NativeAd nativeAd) {
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(ScanResultActivity.this).inflate(R.layout.ads_native_large, null);
+                    mBinding.flNative.removeAllViews();
+                    mBinding.flNative.addView(adView);
+                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                }
+
+                @Override
+                public void onAdFailedToLoad() {
+                    mBinding.flNative.removeAllViews();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            mBinding.flNative.removeAllViews();
+        }
 
         getWindow().setBackgroundDrawable(null);
         initializeToolbar();
