@@ -11,7 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amazic.ads.callback.InterCallback;
+import com.amazic.ads.util.Admod;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 
 import com.ntdapp.qrcode.barcode.scanner.R;
@@ -44,7 +48,23 @@ public class SplashActivity extends AppCompatActivity {
 
         initializeViews();
         animateLogo();
-        goToMainPage();
+        if (Constant.haveNetworkConnection(this)) {
+            Admod.getInstance().loadSplashInterAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new InterCallback() {
+                @Override
+                public void onAdClosed() {
+                    goToMainPage();
+                }
+
+                @Override
+                public void onAdFailedToLoad(LoadAdError i) {
+                    goToMainPage();
+                }
+            });
+        } else {
+            new Handler().postDelayed(() -> {
+                goToMainPage();
+            }, SPLASH_DELAY);
+        }
     }
 
     /**
@@ -59,10 +79,10 @@ public class SplashActivity extends AppCompatActivity {
      * This method takes user to the main page
      */
     private void goToMainPage() {
-        new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-            finish();
-        }, SPLASH_DELAY);
+        //new Handler().postDelayed(() -> {
+        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+        finish();
+        //}, SPLASH_DELAY);
     }
 
     /**

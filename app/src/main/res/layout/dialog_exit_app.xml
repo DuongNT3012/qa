@@ -14,7 +14,7 @@
         android:layout_marginTop="12dp"
         android:text="Do you want to exit?"
         android:textAllCaps="false"
-        android:textColor="@color/gnt_black"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/btnExit"
@@ -42,9 +42,9 @@
             <ProgressBar
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:backgroundTint="@color/gnt_black"
+                android:backgroundTint="@color/black"
                 android:indeterminate="true"
-                android:progressTint="@color/gnt_black" />
+                android:progressTint="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_marginLeft="6dp"
                 android:gravity="center"
                 android:text="Loading ad..."
-                android:textColor="@color/gnt_black"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
     </FrameLayout>

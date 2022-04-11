@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amazic.ads.callback.InterCallback;
+import com.amazic.ads.util.Admod;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.itemtouch.OnStartDragListener;
@@ -43,6 +47,7 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     private HistoryAdapter mAdapter;
     Code code;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private InterstitialAd mInterstitialScanResult;
     //
 
     private CompositeDisposable getCompositeDisposable() {
@@ -77,7 +82,9 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if (mInterstitialScanResult == null) {
+            loadInterScanResult();
+        }
         if (mContext != null) {
             mBinding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(mContext));
             mBinding.recyclerViewHistory.setItemAnimator(new DefaultItemAnimator());
@@ -140,13 +147,34 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
 
     @Override
     public void onItemClick(View view, Code item, int position) {
+        Admod.getInstance().showInterAds(mContext, mInterstitialScanResult, new InterCallback() {
+            @Override
+            public void onAdClosed() {
+                code = item;
+                Log.d("codeResult", code + "");
 
-        code = item;
-        Log.d("codeResult", code + "");
+                Intent intent = new Intent(mContext, ScanResultActivity.class);
+                intent.putExtra(IntentKey.MODEL, item);
+                intent.putExtra(IntentKey.IS_HISTORY, true);
+                startActivity(intent);
+                mInterstitialScanResult = null;
+                loadInterScanResult();
+            }
 
-        Intent intent = new Intent(mContext, ScanResultActivity.class);
-        intent.putExtra(IntentKey.MODEL, item);
-        intent.putExtra(IntentKey.IS_HISTORY, true);
-        startActivity(intent);
+            @Override
+            public void onAdFailedToLoad(LoadAdError i) {
+                onAdClosed();
+            }
+        });
+    }
+
+    private void loadInterScanResult() {
+        Admod.getInstance().loadInterAds(mContext, getString(R.string.inter_scan_result), new InterCallback() {
+            @Override
+            public void onInterstitialLoad(InterstitialAd interstitialAd) {
+                super.onInterstitialLoad(interstitialAd);
+                mInterstitialScanResult = interstitialAd;
+            }
+        });
     }
 }

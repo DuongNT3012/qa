@@ -24,6 +24,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 
+import com.amazic.ads.callback.InterCallback;
+import com.amazic.ads.util.Admod;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
