@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +18,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.amazic.ads.callback.NativeCallback;
+import com.amazic.ads.util.Admod;
+import com.amazic.ads.util.AppOpenManager;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
@@ -30,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     private ActivitySettingsBinding mBinding;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private boolean checkResume = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +45,39 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //
+        // load ads native setting
+        try {
+            Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new NativeCallback() {
+                @Override
+                public void onNativeAdLoaded(NativeAd nativeAd) {
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(SettingsActivity.this).inflate(R.layout.ads_native_large, null);
+                    mBinding.flNative.removeAllViews();
+                    mBinding.flNative.addView(adView);
+                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                }
+
+                @Override
+                public void onAdFailedToLoad() {
+                    mBinding.flNative.removeAllViews();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            mBinding.flNative.removeAllViews();
+        }
 
         initializeToolbar();
         loadSettings();
         setListeners();
         setBack();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkResume){
+            AppOpenManager.getInstance().enableAppResume();
+        }
     }
 
     private void loadSettings() {
@@ -153,6 +187,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     private void catchPrivacyPolicy(){
+        checkResume = true;
+        AppOpenManager.getInstance().disableAppResume();
         Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/trustqr-434a6.appspot.com/o/Privacy_policy.html?alt=media&token=95260c7c-ca4c-4b3e-a853-32a225063ba3");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
@@ -175,6 +211,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkResume = true;
+                AppOpenManager.getInstance().disableAppResume();
                 String uriText = "mailto:" + Constant.email +
                         "?subject=" + "feedback Qr code" +
                         "&body=" + "Title : " + edt_title.getText() + "\nContent: " + edt_content.getText();

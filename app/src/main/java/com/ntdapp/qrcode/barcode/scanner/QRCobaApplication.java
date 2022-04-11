@@ -3,13 +3,16 @@ package com.ntdapp.qrcode.barcode.scanner;
 import android.content.Context;
 
 import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
 
-//import com.google.android.gms.ads.MobileAds;
+import com.amazic.ads.util.AdsApplication;
+import com.amazic.ads.util.AppOpenManager;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.splash.SplashActivity;
 
-public class QRCobaApplication extends MultiDexApplication {
+import java.util.List;
+
+public class QRCobaApplication extends AdsApplication {
 
     private static QRCobaApplication sInstance;
 
@@ -29,5 +32,22 @@ public class QRCobaApplication extends MultiDexApplication {
         sInstance = this;
         SharedPrefUtil.init(getApplicationContext());
         DatabaseUtil.init(getApplicationContext());
+
+        AppOpenManager.getInstance().disableAppResumeWithActivity(SplashActivity.class);
+    }
+
+    @Override
+    public boolean enableAdsResume() {
+        return true;
+    }
+
+    @Override
+    public List<String> getListTestDeviceId() {
+        return null;
+    }
+
+    @Override
+    public String getResumeAdId() {
+        return getString(R.string.ad_app_open_resume);
     }
 }

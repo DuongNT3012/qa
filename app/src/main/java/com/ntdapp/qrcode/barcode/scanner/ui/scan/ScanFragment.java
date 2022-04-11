@@ -26,6 +26,7 @@ import androidx.loader.content.CursorLoader;
 
 import com.amazic.ads.callback.InterCallback;
 import com.amazic.ads.util.Admod;
+import com.amazic.ads.util.AppOpenManager;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -40,6 +41,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.AppConstants;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
@@ -49,6 +51,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.util.ProgressDialogUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.image.ImageInfo;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.image.ImagePicker;
+import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.pickedfromgallery.PickedFromGalleryActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
 
@@ -232,6 +235,8 @@ public class ScanFragment extends androidx.fragment.app.Fragment implements View
 
             case R.id.text_view_scan_gallery:
                 ImagePicker.pickImage(this);
+                Constant.checkResumeGallery = true;
+                AppOpenManager.getInstance().disableAppResumeWithActivity(HomeActivity.class);
                 break;
 
             default:

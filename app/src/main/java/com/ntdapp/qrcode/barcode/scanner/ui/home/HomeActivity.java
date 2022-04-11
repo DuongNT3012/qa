@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.amazic.ads.callback.NativeCallback;
+import com.amazic.ads.util.Admod;
+import com.amazic.ads.util.AppOpenManager;
 import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
@@ -62,6 +67,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private AlertDialog alertDialog;
+    private boolean checkAdsResume = false;
 
     public Menu getToolbarMenu() {
         return mToolbarMenu;
@@ -85,8 +91,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         alertDialog.setButton(-1, (CharSequence) "Go to setting", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             public void onClick(DialogInterface dialogInterface, int i) {
-                //checkAdsResume = true;
-                //AppOpenManager.getInstance().disableAppResume();
+                checkAdsResume = true;
+                AppOpenManager.getInstance().disableAppResume();
                 alertDialog.dismiss();
                 requestPermissions(new String[]{Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1112);
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -115,6 +121,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         loadDigLogNativeAds();
         //
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //
+        if(checkAdsResume){
+            AppOpenManager.getInstance().enableAppResume();
+        }
+        //
+        if(Constant.checkResumeGallery){
+            AppOpenManager.getInstance().enableAppResumeWithActivity(HomeActivity.class);
+        }
     }
 
     private void setting() {
@@ -156,6 +175,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void showDialogNativeAds() {
         TextView btnOK = dialog.findViewById(R.id.btnExit);
         TextView btnCancel = dialog.findViewById(R.id.btnNo);
+        FrameLayout flNative = dialog.findViewById(R.id.fl_native);
+
+        // load ads native exit
+        try {
+            Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
+                @Override
+                public void onNativeAdLoaded(NativeAd nativeAd) {
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
+                    flNative.removeAllViews();
+                    flNative.addView(adView);
+                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                }
+
+                @Override
+                public void onAdFailedToLoad() {
+                    flNative.removeAllViews();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            flNative.removeAllViews();
+        }
 
         btnOK.setOnClickListener(v -> {
             SharePrefUtils.increaseCountOpenApp(HomeActivity.this);

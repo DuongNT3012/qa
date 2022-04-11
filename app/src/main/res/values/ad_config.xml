@@ -3,13 +3,25 @@
     <!--ID TEST-->
     //ads test
     <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ad_app_open_resume">ca-app-pub-3940256099942544/3419835294</string>
     <string name="inter_splash">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_scan_result">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_generate">ca-app-pub-3940256099942544/1033173712</string>
-
-
-    <string name="ad_appopen_resume">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ad_native_generate">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_setting">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_native_exit">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- END-->
+
+    //ads real
+    <!--<string name="app_id">ca-app-pub-2049543423319084~5616533423</string>
+    <string name="ad_app_open_resume">ca-app-pub-2049543423319084/7724719808</string>
+    <string name="inter_splash">ca-app-pub-2049543423319084/2623015483</string>
+    <string name="inter_scan_result">ca-app-pub-2049543423319084/3449846142</string>
+    <string name="inter_generate">ca-app-pub-2049543423319084/2663964818</string>
+    <string name="ad_native_generate">ca-app-pub-2049543423319084/8996852146</string>
+    <string name="ad_native_setting">ca-app-pub-2049543423319084/8510601137</string>
+    <string name="ad_native_exit">ca-app-pub-2049543423319084/7197519460</string>
+    <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>-->
     <!-- END-->
 </resources>

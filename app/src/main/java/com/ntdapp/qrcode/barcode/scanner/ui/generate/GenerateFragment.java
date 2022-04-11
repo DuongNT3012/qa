@@ -21,9 +21,12 @@ import androidx.databinding.DataBindingUtil;
 //import com.google.android.gms.ads.AdRequest;
 //import com.google.android.gms.ads.InterstitialAd;
 import com.amazic.ads.callback.InterCallback;
+import com.amazic.ads.callback.NativeCallback;
 import com.amazic.ads.util.Admod;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
@@ -71,6 +74,27 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         if (mInterstitialGenerate == null) {
             loadInterGenerate();
         }
+        // load ads native generate
+        try {
+            Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
+                @Override
+                public void onNativeAdLoaded(NativeAd nativeAd) {
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(mContext).inflate(R.layout.ads_native_large, null);
+                    mBinding.flNative.removeAllViews();
+                    mBinding.flNative.addView(adView);
+                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                }
+
+                @Override
+                public void onAdFailedToLoad() {
+                    mBinding.flNative.removeAllViews();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            mBinding.flNative.removeAllViews();
+        }
+
         setListeners();
         initializeCodeTypesSpinner();
 

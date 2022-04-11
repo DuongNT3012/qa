@@ -262,7 +262,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this,
-                    getString(R.string.file_provider_authority), codeImageFile));
+                    getApplicationContext().getPackageName() + ".fileprovider", codeImageFile));
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(codeImageFile));

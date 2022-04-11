@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 public class Constant {
     public static String email = "nguyenduong30121999@gmail.com";
     public static String subject = "Feedback QR Code";
+    public static boolean checkResumeGallery = false;
 
     public static boolean haveNetworkConnection(Context context) {
         boolean haveConnectedWifi = false;

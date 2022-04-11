@@ -1,6 +1,9 @@
 package com.ntdapp.qrcode.barcode.scanner.ui.splash;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -9,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazic.ads.callback.InterCallback;
@@ -46,6 +50,8 @@ public class SplashActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         //
 
+        Admod.getInstance().setOpenActivityAfterShowInterAds(checkPermission(getPermission()));
+
         initializeViews();
         animateLogo();
         if (Constant.haveNetworkConnection(this)) {
@@ -65,6 +71,21 @@ public class SplashActivity extends AppCompatActivity {
                 goToMainPage();
             }, SPLASH_DELAY);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public boolean checkPermission(String[] per) {
+        for (String s : per) {
+            if (checkSelfPermission(s) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public String[] getPermission() {
+        return new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
     /**

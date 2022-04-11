@@ -2,8 +2,6 @@
     <!--App Essentials-->
     <string name="app_name">QR Code Reader - Scanner App</string>
 
-    <string name="file_provider_authority" translatable="false">com.qrcode.barcode.barcodescanner.qrcodereader.fileprovider</string>
-
     <!--Essentials-->
     <string name="please_wait">Please Wait…</string>
 
