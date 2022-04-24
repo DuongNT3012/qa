@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_56"
             android:background="@color/white"
-            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintBottom_toTopOf="@id/banner"
             app:layout_constraintEnd_toStartOf="@+id/constraint_layout_scan_container"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,20 +35,30 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_56"
             android:background="@color/white"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintBottom_toTopOf="@+id/adView"
+            ads:layout_constraintBottom_toTopOf="@+id/banner"
             app:layout_constraintEnd_toStartOf="@+id/constraint_layout_history_container"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/constraint_layout_generate_container"
             app:layout_constraintTop_toBottomOf="@+id/view_drop_shadow" />
+
+        <FrameLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/constraint_layout_scan_container">
+
+            <include layout="@layout/layout_banner" />
+        </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_history_container"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_56"
             android:background="@color/white"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintBottom_toTopOf="@+id/adView"
+            ads:layout_constraintBottom_toTopOf="@+id/banner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/constraint_layout_scan_container"
@@ -97,6 +107,7 @@
             app:layout_constraintEnd_toEndOf="@+id/constraint_layout_scan_container"
             app:layout_constraintStart_toStartOf="@+id/constraint_layout_scan_container"
             app:layout_constraintTop_toBottomOf="@+id/image_view_scan" />
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image_view_history"
@@ -197,8 +208,9 @@
             android:id="@+id/coordinator_layout_fragment_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/coordinator_layout_icon_extra_part_container"
+            app:layout_constraintBottom_toTopOf="@+id/image_view_generate_active"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="5dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />

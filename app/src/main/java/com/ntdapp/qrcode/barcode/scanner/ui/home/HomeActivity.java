@@ -83,6 +83,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
 //        getWindow().setBackgroundDrawable(null);
+        //banner
+        Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
 
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
@@ -415,18 +417,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_view_generate:
             case R.id.constraint_layout_generate_container:
                 clickOnGenerate();
+                mBinding.banner.setVisibility(View.GONE);
                 break;
 
             case R.id.image_view_scan:
             case R.id.text_view_scan:
             case R.id.constraint_layout_scan_container:
                 clickOnScan();
+                mBinding.banner.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.image_view_history:
             case R.id.text_view_history:
             case R.id.constraint_layout_history_container:
                 clickOnHistory();
+                mBinding.banner.setVisibility(View.VISIBLE);
                 break;
         }
     }

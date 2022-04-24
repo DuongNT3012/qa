@@ -11,6 +11,7 @@
     <application
         android:name=".QRCobaApplication"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_logo_app"
         android:label="@string/app_name"
@@ -19,17 +20,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:dataExtractionRules="@xml/data_extraction_rules">
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.tutorial.TutorialActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id" />
-        <!--//applovin-->
-        <!--<meta-data
+            android:value="@string/app_id" /> <!-- //applovin -->
+        <!--
+<meta-data
             android:name="applovin.sdk.key"
-            android:value="UxnkXbGTs2TktuagMyD4F6ItNss3GiQQPanbDipXTBX9x7mPcpRoTKqa7dDtGsFZ4mEf610aC_5T-9RAa9AeW8" />-->
-
+            android:value="UxnkXbGTs2TktuagMyD4F6ItNss3GiQQPanbDipXTBX9x7mPcpRoTKqa7dDtGsFZ4mEf610aC_5T-9RAa9AeW8" />
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -45,7 +48,7 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -57,48 +60,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity"
+            android:name=".ui.generatedcode.GeneratedCodeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity"
+            android:name=".ui.scanresult.ScanResultActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.pickedfromgallery.PickedFromGalleryActivity"
+            android:name=".ui.pickedfromgallery.PickedFromGalleryActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.about_us.AboutUsActivity"
+            android:name=".ui.about_us.AboutUsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.privacy_policy.PrivayPolicyActivity"
+            android:name=".ui.privacy_policy.PrivayPolicyActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
         <activity
-            android:name="com.ntdapp.qrcode.barcode.scanner.ui.feedback.FeedbackActivity"
+            android:name=".ui.feedback.FeedbackActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.GradientStatusBar" />
 
         <service
-            android:name="com.ntdapp.qrcode.barcode.scanner.helpers.service.MyFirebaseMessagingService"
+            android:name=".helpers.service.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -108,7 +111,6 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

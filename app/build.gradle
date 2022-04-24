@@ -8,8 +8,8 @@ android {
         applicationId "com.ntdapp.qrcode.barcode.scanner"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 102
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         // Enable MultiDex App; so that there will be no limitation (64k+) in method counting
@@ -108,4 +108,7 @@ dependencies {
 
     // required to avoid crash on Android 12 API 31
     implementation 'androidx.work:work-runtime-ktx:2.7.0'
+
+    //indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }

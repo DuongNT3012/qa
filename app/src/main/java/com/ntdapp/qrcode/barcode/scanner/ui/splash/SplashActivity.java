@@ -23,6 +23,7 @@ import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 
 import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.ui.tutorial.TutorialActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -101,7 +102,7 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void goToMainPage() {
         //new Handler().postDelayed(() -> {
-        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+        startActivity(new Intent(SplashActivity.this, TutorialActivity.class));
         finish();
         //}, SPLASH_DELAY);
     }
