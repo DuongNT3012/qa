@@ -1,4 +1,4 @@
-package com.ntdapp.qrcode.barcode.scanner.ui.home;
+package com.ntdapp.qrcode.barcode.scanner.ui.generate;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -51,17 +51,16 @@ import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.RatingDialog;
 import com.ntdapp.qrcode.barcode.scanner.SharePrefUtils;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHomeBinding;
-import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateActivity;
-import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateFragment;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityGenerateBinding;
 import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryFragment;
+import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scan.ScanFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class GenerateActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ActivityHomeBinding mBinding;
+    private ActivityGenerateBinding mBinding;
     private Menu mToolbarMenu;
 
     private Dialog dialog;
@@ -84,11 +83,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-
-//        getWindow().setBackgroundDrawable(null);
-        //banner
-        Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_generate);
 
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
@@ -109,11 +104,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         //Permission
-        if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(GenerateActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(GenerateActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
         } else {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1111);
+            ActivityCompat.requestPermissions(GenerateActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1111);
         }
 
         //firebase
@@ -128,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loadDigLogNativeAds();
         //
 
-        loadInterGen();
+        loadInterScan();
         loadInterHis();
     }
 
@@ -171,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadDigLogNativeAds() {
-        dialog = new Dialog(HomeActivity.this);
+        dialog = new Dialog(GenerateActivity.this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_exit_app, null, false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
@@ -188,10 +183,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         // load ads native exit
         try {
-            Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
+            Admod.getInstance().loadNativeAd(GenerateActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(GenerateActivity.this).inflate(R.layout.ads_native_large, null);
                     flNative.removeAllViews();
                     flNative.addView(adView);
                     Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
@@ -208,8 +203,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         btnOK.setOnClickListener(v -> {
-            SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+            SharePrefUtils.increaseCountOpenApp(GenerateActivity.this);
             finish();
+            System.exit(0);
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,14 +216,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    private final Runnable mUpdateUITimerTask = new Runnable() {
-        public void run() {
-        }
-    };
-
     private void showRateDialog() {
         RatingDialog ratingDialog = new RatingDialog(this);
-        ratingDialog.init(HomeActivity.this, new RatingDialog.OnPress() {
+        ratingDialog.init(GenerateActivity.this, new RatingDialog.OnPress() {
             @Override
             public void send() {
                 ratingDialog.dismiss();
@@ -239,40 +230,37 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 sendIntent.setData(uri);
                 try {
                     startActivity(Intent.createChooser(sendIntent, "Send Email"));
-                    SharePrefUtils.forceRated(HomeActivity.this);
+                    SharePrefUtils.forceRated(GenerateActivity.this);
                     finish();
+                    System.exit(0);
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(HomeActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GenerateActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void rating() {
-              /* startActivity(
-                       new Intent(
-                               Intent.ACTION_VIEW,
-                               Uri.parse("https://play.google.com/store/apps/details?id="+ Constant.packageName)
-                       )
-               );*/
-                manager = ReviewManagerFactory.create(HomeActivity.this);
+                manager = ReviewManagerFactory.create(GenerateActivity.this);
                 Task<ReviewInfo> request = manager.requestReviewFlow();
                 request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
                     @Override
                     public void onComplete(Task<ReviewInfo> task) {
                         if (task.isSuccessful()) {
                             reviewInfo = task.getResult();
-                            Task<Void> flow = manager.launchReviewFlow(HomeActivity.this, reviewInfo);
+                            Task<Void> flow = manager.launchReviewFlow(GenerateActivity.this, reviewInfo);
                             flow.addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void result) {
-                                    SharePrefUtils.forceRated(HomeActivity.this);
+                                    SharePrefUtils.forceRated(GenerateActivity.this);
                                     ratingDialog.dismiss();
                                     finishAffinity();
+                                    System.exit(0);
                                 }
                             });
                         } else {
                             ratingDialog.dismiss();
                             finishAffinity();
+                            System.exit(0);
                         }
                     }
                 });
@@ -281,14 +269,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void cancel() {
-                SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+                SharePrefUtils.increaseCountOpenApp(GenerateActivity.this);
                 finishAffinity();
                 System.exit(0);
             }
 
             @Override
             public void later() {
-                SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+                SharePrefUtils.increaseCountOpenApp(GenerateActivity.this);
                 finishAffinity();
                 System.exit(0);
             }
@@ -335,7 +323,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initializeBottomBar() {
-        clickOnScan();
+        clickOnGenerate();
     }
 
     private void clickOnGenerate() {
@@ -382,15 +370,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         setToolbarTitle(getString(R.string.toolbar_title_scan));
 
-        /*IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setBeepEnabled(SharedPrefUtil.readBooleanDefaultTrue(PreferenceKey.PLAY_SOUND));
-        integrator.setOrientationLocked(false);
-        integrator.setPrompt("Scan a barcode");
-        integrator.initiateScan();
-
-        *//*
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-         */
         showFragment(ScanFragment.newInstance());
     }
 
@@ -420,34 +399,34 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.image_view_generate:
-            case R.id.text_view_generate:
-            case R.id.constraint_layout_generate_container:
+//            case R.id.image_view_generate:
+//            case R.id.text_view_generate:
+//            case R.id.constraint_layout_generate_container:
 //                clickOnGenerate();
-                Admod.getInstance().showInterAds(this, Constant.interGen, new InterCallback() {
+//                mBinding.banner.setVisibility(View.GONE);
+//                break;
+
+            case R.id.image_view_scan:
+            case R.id.text_view_scan:
+            case R.id.constraint_layout_scan_container:
+//                clickOnScan();
+                Admod.getInstance().showInterAds(this, Constant.interScan, new InterCallback() {
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                        startActivity(new Intent(GenerateActivity.this, HomeActivity.class));
                         finish();
                     }
 
                     @Override
                     public void onAdFailedToLoad(LoadAdError i) {
                         super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                        startActivity(new Intent(GenerateActivity.this, HomeActivity.class));
                         finish();
                     }
                 });
-                mBinding.banner.setVisibility(View.GONE);
+                mBinding.banner.setVisibility(View.VISIBLE);
                 break;
-
-//            case R.id.image_view_scan:
-//            case R.id.text_view_scan:
-//            case R.id.constraint_layout_scan_container:
-//                clickOnScan();
-//                mBinding.banner.setVisibility(View.VISIBLE);
-//                break;
 
             case R.id.image_view_history:
             case R.id.text_view_history:
@@ -457,14 +436,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                        startActivity(new Intent(GenerateActivity.this, HistoryActivity.class));
                         finish();
                     }
 
                     @Override
                     public void onAdFailedToLoad(LoadAdError i) {
                         super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                        startActivity(new Intent(GenerateActivity.this, HistoryActivity.class));
                         finish();
                     }
                 });
@@ -503,22 +482,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void loadInterScan() {
+        Admod.getInstance().loadInterAds(this, getString(R.string.inter_scan), new InterCallback() {
+            @Override
+            public void onInterstitialLoad(InterstitialAd interstitialAd) {
+                super.onInterstitialLoad(interstitialAd);
+                Constant.interScan = interstitialAd;
+            }
+        });
+    }
+
     private void loadInterHis() {
         Admod.getInstance().loadInterAds(this, getString(R.string.inter_his), new InterCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
                 Constant.interHis = interstitialAd;
-            }
-        });
-    }
-
-    private void loadInterGen() {
-        Admod.getInstance().loadInterAds(this, getString(R.string.inter_gen), new InterCallback() {
-            @Override
-            public void onInterstitialLoad(InterstitialAd interstitialAd) {
-                super.onInterstitialLoad(interstitialAd);
-                Constant.interGen = interstitialAd;
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.ntdapp.qrcode.barcode.scanner.ui.home;
+package com.ntdapp.qrcode.barcode.scanner.ui.history;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -51,17 +51,16 @@ import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.RatingDialog;
 import com.ntdapp.qrcode.barcode.scanner.SharePrefUtils;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHomeBinding;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHistoryBinding;
 import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateFragment;
-import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryActivity;
-import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryFragment;
+import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scan.ScanFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HistoryActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ActivityHomeBinding mBinding;
+    private ActivityHistoryBinding mBinding;
     private Menu mToolbarMenu;
 
     private Dialog dialog;
@@ -84,11 +83,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_history);
 
 //        getWindow().setBackgroundDrawable(null);
         //banner
-        Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
+        Admod.getInstance().loadBanner(HistoryActivity.this, getResources().getString(R.string.ad_banner_all));
 
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
@@ -109,11 +108,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         //Permission
-        if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(HistoryActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(HistoryActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
         } else {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1111);
+            ActivityCompat.requestPermissions(HistoryActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1111);
         }
 
         //firebase
@@ -129,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //
 
         loadInterGen();
-        loadInterHis();
+        loadInterScan();
     }
 
     @Override
@@ -171,7 +170,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadDigLogNativeAds() {
-        dialog = new Dialog(HomeActivity.this);
+        dialog = new Dialog(HistoryActivity.this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_exit_app, null, false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
@@ -188,10 +187,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         // load ads native exit
         try {
-            Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
+            Admod.getInstance().loadNativeAd(HistoryActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
+                    NativeAdView adView = (NativeAdView) LayoutInflater.from(HistoryActivity.this).inflate(R.layout.ads_native_large, null);
                     flNative.removeAllViews();
                     flNative.addView(adView);
                     Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
@@ -208,7 +207,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         btnOK.setOnClickListener(v -> {
-            SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+            SharePrefUtils.increaseCountOpenApp(HistoryActivity.this);
             finish();
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +226,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showRateDialog() {
         RatingDialog ratingDialog = new RatingDialog(this);
-        ratingDialog.init(HomeActivity.this, new RatingDialog.OnPress() {
+        ratingDialog.init(HistoryActivity.this, new RatingDialog.OnPress() {
             @Override
             public void send() {
                 ratingDialog.dismiss();
@@ -239,40 +238,36 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 sendIntent.setData(uri);
                 try {
                     startActivity(Intent.createChooser(sendIntent, "Send Email"));
-                    SharePrefUtils.forceRated(HomeActivity.this);
+                    SharePrefUtils.forceRated(HistoryActivity.this);
                     finish();
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(HomeActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void rating() {
-              /* startActivity(
-                       new Intent(
-                               Intent.ACTION_VIEW,
-                               Uri.parse("https://play.google.com/store/apps/details?id="+ Constant.packageName)
-                       )
-               );*/
-                manager = ReviewManagerFactory.create(HomeActivity.this);
+                manager = ReviewManagerFactory.create(HistoryActivity.this);
                 Task<ReviewInfo> request = manager.requestReviewFlow();
                 request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
                     @Override
                     public void onComplete(Task<ReviewInfo> task) {
                         if (task.isSuccessful()) {
                             reviewInfo = task.getResult();
-                            Task<Void> flow = manager.launchReviewFlow(HomeActivity.this, reviewInfo);
+                            Task<Void> flow = manager.launchReviewFlow(HistoryActivity.this, reviewInfo);
                             flow.addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void result) {
-                                    SharePrefUtils.forceRated(HomeActivity.this);
+                                    SharePrefUtils.forceRated(HistoryActivity.this);
                                     ratingDialog.dismiss();
                                     finishAffinity();
+                                    System.exit(0);
                                 }
                             });
                         } else {
                             ratingDialog.dismiss();
                             finishAffinity();
+                            System.exit(0);
                         }
                     }
                 });
@@ -281,14 +276,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void cancel() {
-                SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+                SharePrefUtils.increaseCountOpenApp(HistoryActivity.this);
                 finishAffinity();
                 System.exit(0);
             }
 
             @Override
             public void later() {
-                SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
+                SharePrefUtils.increaseCountOpenApp(HistoryActivity.this);
                 finishAffinity();
                 System.exit(0);
             }
@@ -335,7 +330,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initializeBottomBar() {
-        clickOnScan();
+//        clickOnScan();
+        clickOnHistory();
     }
 
     private void clickOnGenerate() {
@@ -428,48 +424,48 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                        startActivity(new Intent(HistoryActivity.this, GenerateActivity.class));
                         finish();
                     }
 
                     @Override
                     public void onAdFailedToLoad(LoadAdError i) {
                         super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                        startActivity(new Intent(HistoryActivity.this, GenerateActivity.class));
                         finish();
                     }
                 });
                 mBinding.banner.setVisibility(View.GONE);
                 break;
 
-//            case R.id.image_view_scan:
-//            case R.id.text_view_scan:
-//            case R.id.constraint_layout_scan_container:
+            case R.id.image_view_scan:
+            case R.id.text_view_scan:
+            case R.id.constraint_layout_scan_container:
 //                clickOnScan();
-//                mBinding.banner.setVisibility(View.VISIBLE);
-//                break;
-
-            case R.id.image_view_history:
-            case R.id.text_view_history:
-            case R.id.constraint_layout_history_container:
-//                clickOnHistory();
-                Admod.getInstance().showInterAds(this, Constant.interHis, new InterCallback() {
+                Admod.getInstance().showInterAds(this, Constant.interScan, new InterCallback() {
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                        startActivity(new Intent(HistoryActivity.this, HomeActivity.class));
                         finish();
                     }
 
                     @Override
                     public void onAdFailedToLoad(LoadAdError i) {
                         super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                        startActivity(new Intent(HistoryActivity.this, HomeActivity.class));
                         finish();
                     }
                 });
                 mBinding.banner.setVisibility(View.VISIBLE);
                 break;
+
+//            case R.id.image_view_history:
+//            case R.id.text_view_history:
+//            case R.id.constraint_layout_history_container:
+//                clickOnHistory();
+//                mBinding.banner.setVisibility(View.VISIBLE);
+//                break;
         }
     }
 
@@ -503,12 +499,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadInterHis() {
-        Admod.getInstance().loadInterAds(this, getString(R.string.inter_his), new InterCallback() {
+    private void loadInterScan() {
+        Admod.getInstance().loadInterAds(this, getString(R.string.inter_scan), new InterCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
-                Constant.interHis = interstitialAd;
+                Constant.interScan = interstitialAd;
             }
         });
     }

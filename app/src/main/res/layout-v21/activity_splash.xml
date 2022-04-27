@@ -36,9 +36,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -60,7 +60,6 @@
             android:indeterminate="true"
             android:indeterminateTint="#FF0CB409"
             android:indeterminateTintMode="src_atop" />
-
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

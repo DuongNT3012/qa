@@ -4,10 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+
 public class Constant {
     public static String email = "nguyenduong30121999@gmail.com";
     public static String subject = "Feedback QR Code";
     public static boolean checkResumeGallery = false;
+    public static InterstitialAd interScan;
+    public static InterstitialAd interGen;
+    public static InterstitialAd interHis;
 
     public static boolean haveNetworkConnection(Context context) {
         boolean haveConnectedWifi = false;
