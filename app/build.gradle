@@ -8,8 +8,8 @@ android {
         applicationId "com.ntdapp.qrcode.barcode.scanner"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 102
-        versionName "1.0.2"
+        versionCode 103
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         // Enable MultiDex App; so that there will be no limitation (64k+) in method counting

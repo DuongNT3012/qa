@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 checkAdsResume = true;
                 AppOpenManager.getInstance().disableAppResume();
                 alertDialog.dismiss();
-                requestPermissions(new String[]{Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1112);
+                requestPermissions(new String[]{Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1112);
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 Uri uri = Uri.fromParts("package", getApplicationContext().getPackageName(), null);
                 intent.setData(uri);
@@ -110,10 +110,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         //Permission
         if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
         } else {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1111);
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1111);
         }
 
         //firebase
@@ -424,21 +424,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_view_generate:
             case R.id.constraint_layout_generate_container:
 //                clickOnGenerate();
-                Admod.getInstance().showInterAds(this, Constant.interGen, new InterCallback() {
-                    @Override
-                    public void onAdClosed() {
-                        super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
-                        finish();
-                    }
+                try {
+                    Admod.getInstance().showInterAds(this, Constant.interGen, new InterCallback() {
+                        @Override
+                        public void onAdClosed() {
+                            super.onAdClosed();
+                            startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                            finish();
+                        }
 
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError i) {
-                        super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
-                        finish();
-                    }
-                });
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError i) {
+                            super.onAdFailedToLoad(i);
+                            startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                            finish();
+                        }
+                    });
+                } catch (Exception e) {
+                    startActivity(new Intent(HomeActivity.this, GenerateActivity.class));
+                    finish();
+                }
                 mBinding.banner.setVisibility(View.GONE);
                 break;
 
@@ -453,21 +458,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_view_history:
             case R.id.constraint_layout_history_container:
 //                clickOnHistory();
-                Admod.getInstance().showInterAds(this, Constant.interHis, new InterCallback() {
-                    @Override
-                    public void onAdClosed() {
-                        super.onAdClosed();
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
-                        finish();
-                    }
+                try {
+                    Admod.getInstance().showInterAds(this, Constant.interHis, new InterCallback() {
+                        @Override
+                        public void onAdClosed() {
+                            super.onAdClosed();
+                            startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                            finish();
+                        }
 
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError i) {
-                        super.onAdFailedToLoad(i);
-                        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
-                        finish();
-                    }
-                });
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError i) {
+                            super.onAdFailedToLoad(i);
+                            startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                            finish();
+                        }
+                    });
+                } catch (Exception e) {
+                    startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                    finish();
+                }
                 mBinding.banner.setVisibility(View.VISIBLE);
                 break;
         }

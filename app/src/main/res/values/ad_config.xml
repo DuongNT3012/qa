@@ -18,7 +18,7 @@
     <string name="inter_gen">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_scan">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_his">ca-app-pub-3940256099942544/1033173712</string>
-    <!-- END-->
+     END
 
     //ads real
     <!--<string name="app_id">ca-app-pub-2049543423319084~5616533423</string>
@@ -36,6 +36,6 @@
 
     <string name="inter_gen">ca-app-pub-2049543423319084/3040384666</string>
     <string name="inter_scan">ca-app-pub-2049543423319084/2148344515</string>
-    <string name="inter_his">ca-app-pub-2049543423319084/5474976317</string>-->
-    <!-- END-->
+    <string name="inter_his">ca-app-pub-2049543423319084/5474976317</string>
+     END-->
 </resources>
