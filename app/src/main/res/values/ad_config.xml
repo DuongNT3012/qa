@@ -32,6 +32,10 @@
     <string name="ad_native_scan_result">ca-app-pub-2049543423319084/3547755353</string>
     <string name="ad_native_setting">ca-app-pub-2049543423319084/8510601137</string>
     <string name="ad_native_exit">ca-app-pub-2049543423319084/7197519460</string>
-    <string name="ad_banner_all">ca-app-pub-2049543423319084/2385692822</string>-->
+    <string name="ad_banner_all">ca-app-pub-2049543423319084/2385692822</string>
+
+    <string name="inter_gen">ca-app-pub-2049543423319084/3040384666</string>
+    <string name="inter_scan">ca-app-pub-2049543423319084/2148344515</string>
+    <string name="inter_his">ca-app-pub-2049543423319084/5474976317</string>-->
     <!-- END-->
 </resources>
