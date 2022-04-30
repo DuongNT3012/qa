@@ -27,9 +27,10 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id" /> <!-- //applovin -->
+            android:value="@string/app_id" />
+        <!-- //applovin -->
         <!--
-<meta-data
+        <meta-data
             android:name="applovin.sdk.key"
             android:value="UxnkXbGTs2TktuagMyD4F6ItNss3GiQQPanbDipXTBX9x7mPcpRoTKqa7dDtGsFZ4mEf610aC_5T-9RAa9AeW8" />
         -->
