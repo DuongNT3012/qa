@@ -71,11 +71,11 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
         //load inter Generate
-        if (mInterstitialGenerate == null) {
+        /*if (mInterstitialGenerate == null) {
             loadInterGenerate();
-        }
+        }*/
         // load ads native generate
-        try {
+        /*try {
             Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -93,7 +93,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         } catch (Exception e) {
             e.printStackTrace();
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         setListeners();
         initializeCodeTypesSpinner();
@@ -208,7 +208,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                                 getString(R.string.invalid_entry),
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Admod.getInstance().showInterAds(mContext, mInterstitialGenerate, new InterCallback() {
+                        /*Admod.getInstance().showInterAds(mContext, mInterstitialGenerate, new InterCallback() {
                             @Override
                             public void onAdClosed() {
                                 startActivity(intent);
@@ -220,7 +220,8 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                             public void onAdFailedToLoad(LoadAdError i) {
                                 onAdClosed();
                             }
-                        });
+                        });*/
+                        startActivity(intent);
                     }
                 }
             } else {

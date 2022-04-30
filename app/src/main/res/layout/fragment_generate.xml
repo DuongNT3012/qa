@@ -131,6 +131,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_body"
+                            android:text="Generate"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/coordinator_layout_spinner_container"
@@ -148,7 +149,8 @@
                     android:layout_marginHorizontal="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView"
-                    tools:layout_editor_absoluteX="12dp">
+                    tools:layout_editor_absoluteX="12dp"
+                    android:visibility="gone">
 
                     <include layout="@layout/ads_native_shimmer_large" />
                 </FrameLayout>

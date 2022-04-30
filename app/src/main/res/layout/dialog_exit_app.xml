@@ -14,7 +14,8 @@
         android:layout_marginVertical="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteX="12dp">
+        tools:layout_editor_absoluteX="12dp"
+        android:visibility="gone">
 
         <include layout="@layout/ads_native_shimmer_large" />
     </FrameLayout>

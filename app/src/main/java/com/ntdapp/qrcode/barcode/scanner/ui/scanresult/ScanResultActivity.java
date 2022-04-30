@@ -89,8 +89,8 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        try {
-            Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
+        /*try {
+            Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
                     NativeAdView adView = (NativeAdView) LayoutInflater.from(ScanResultActivity.this).inflate(R.layout.ads_native_large, null);
@@ -107,7 +107,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         } catch (Exception e) {
             e.printStackTrace();
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         getWindow().setBackgroundDrawable(null);
         initializeToolbar();

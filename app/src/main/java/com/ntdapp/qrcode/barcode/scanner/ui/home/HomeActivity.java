@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 //        getWindow().setBackgroundDrawable(null);
         //banner
-        Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
+        //Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
 
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
@@ -180,7 +180,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         FrameLayout flNative = dialog.findViewById(R.id.fl_native);
 
         // load ads native exit
-        try {
+        /*try {
             Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -198,7 +198,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
             flNative.removeAllViews();
-        }
+        }*/
 
         btnOK.setOnClickListener(v -> {
             SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
@@ -424,14 +424,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_view_scan:
             case R.id.constraint_layout_scan_container:
                 clickOnScan();
-                mBinding.banner.setVisibility(View.VISIBLE);
+                //mBinding.banner.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.image_view_history:
             case R.id.text_view_history:
             case R.id.constraint_layout_history_container:
                 clickOnHistory();
-                mBinding.banner.setVisibility(View.VISIBLE);
+                //mBinding.banner.setVisibility(View.VISIBLE);
                 break;
         }
     }
