@@ -133,7 +133,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        /*try {
+        try {
             Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -151,7 +151,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
             mBinding.flNative.removeAllViews();
-        }*/
+        }
 
         initializeToolbar();
         loadQRCode();

@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native setting
-        /*try {
+        try {
             Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         } catch (Exception e) {
             e.printStackTrace();
             mBinding.flNative.removeAllViews();
-        }*/
+        }
 
         initializeToolbar();
         loadSettings();

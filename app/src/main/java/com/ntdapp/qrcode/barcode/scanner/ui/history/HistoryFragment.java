@@ -82,9 +82,9 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*if (mInterstitialScanResult == null) {
+        if (mInterstitialScanResult == null) {
             loadInterScanResult();
-        }*/
+        }
         if (mContext != null) {
             mBinding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(mContext));
             mBinding.recyclerViewHistory.setItemAnimator(new DefaultItemAnimator());
@@ -147,7 +147,7 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
 
     @Override
     public void onItemClick(View view, Code item, int position) {
-        /*Admod.getInstance().showInterAds(mContext, mInterstitialScanResult, new InterCallback() {
+        Admod.getInstance().showInterAds(mContext, mInterstitialScanResult, new InterCallback() {
             @Override
             public void onAdClosed() {
                 code = item;
@@ -165,14 +165,14 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
             public void onAdFailedToLoad(LoadAdError i) {
                 onAdClosed();
             }
-        });*/
-        code = item;
+        });
+        /*code = item;
         Log.d("codeResult", code + "");
 
         Intent intent = new Intent(mContext, ScanResultActivity.class);
         intent.putExtra(IntentKey.MODEL, item);
         intent.putExtra(IntentKey.IS_HISTORY, true);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     private void loadInterScanResult() {

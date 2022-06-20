@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
 
         initializeViews();
         animateLogo();
-        /*if (Constant.haveNetworkConnection(this)) {
+        if (Constant.haveNetworkConnection(this)) {
             Admod.getInstance().loadSplashInterAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new InterCallback() {
                 @Override
                 public void onAdClosed() {
@@ -71,10 +71,10 @@ public class SplashActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 goToMainPage();
             }, SPLASH_DELAY);
-        }*/
-        new Handler().postDelayed(() -> {
+        }
+        /*new Handler().postDelayed(() -> {
             goToMainPage();
-        }, SPLASH_DELAY);
+        }, SPLASH_DELAY);*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

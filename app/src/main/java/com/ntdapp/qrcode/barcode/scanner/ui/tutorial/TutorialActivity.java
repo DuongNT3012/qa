@@ -43,9 +43,9 @@ public class TutorialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial);
 
         // Ads Inter
-        /*if (mInterstitialTutorial == null) {
+        if (mInterstitialTutorial == null) {
             loadInterTutorial();
-        }*/
+        }
 
         viewPager2 = findViewById(R.id.view_pager2);
         circleIndicator = findViewById(R.id.circle_indicator);
@@ -98,7 +98,7 @@ public class TutorialActivity extends AppCompatActivity {
                         btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                /*Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
+                                Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
                                     @Override
                                     public void onAdClosed() {
                                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -109,9 +109,9 @@ public class TutorialActivity extends AppCompatActivity {
                                     public void onAdFailedToLoad(LoadAdError i) {
                                         onAdClosed();
                                     }
-                                });*/
-                                startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
-                                finish();
+                                });
+                                /*startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                                finish();*/
                             }
                         });
                         break;
@@ -123,7 +123,7 @@ public class TutorialActivity extends AppCompatActivity {
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
+                Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
                     @Override
                     public void onAdClosed() {
                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -134,9 +134,9 @@ public class TutorialActivity extends AppCompatActivity {
                     public void onAdFailedToLoad(LoadAdError i) {
                         onAdClosed();
                     }
-                });*/
-                startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
-                finish();
+                });
+                /*startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                finish();*/
             }
         });
     }
