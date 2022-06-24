@@ -2,7 +2,7 @@
 <resources>
     <!--ID TEST-->
     //ads test
-    <!--<string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="ad_app_open_resume">ca-app-pub-3940256099942544/3419835294</string>
     <string name="inter_splash">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter_scan_result">ca-app-pub-3940256099942544/1033173712</string>
@@ -13,11 +13,11 @@
     <string name="ad_native_scan_result">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_native_setting">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_native_exit">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>-->
+    <string name="ad_banner_all">ca-app-pub-3940256099942544/6300978111</string>
     <!-- END-->
 
     //ads real
-    <string name="app_id">ca-app-pub-2049543423319084~5616533423</string>
+    <!--<string name="app_id">ca-app-pub-2049543423319084~5616533423</string>
     <string name="ad_app_open_resume">ca-app-pub-2049543423319084/5811773227</string>
     <string name="inter_splash">ca-app-pub-2049543423319084/5620201533</string>
     <string name="inter_scan_result">ca-app-pub-2049543423319084/7474254979</string>
@@ -28,6 +28,6 @@
     <string name="ad_native_scan_result">ca-app-pub-2049543423319084/5945287558</string>
     <string name="ad_native_setting">ca-app-pub-2049543423319084/3319124211</string>
     <string name="ad_native_exit">ca-app-pub-2049543423319084/3157689728</string>
-    <string name="ad_banner_all">ca-app-pub-2049543423319084/7091111597</string>
+    <string name="ad_banner_all">ca-app-pub-2049543423319084/7091111597</string>-->
     <!-- END-->
 </resources>
