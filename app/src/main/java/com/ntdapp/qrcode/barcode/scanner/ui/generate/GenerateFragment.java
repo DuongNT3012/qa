@@ -75,7 +75,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
             loadInterGenerate();
         }
         // load ads native generate
-        /*try {
+        try {
             Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -93,7 +93,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         } catch (Exception e) {
             e.printStackTrace();
             mBinding.flNative.removeAllViews();
-        }*/
+        }
 
         setListeners();
         initializeCodeTypesSpinner();
