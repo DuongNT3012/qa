@@ -84,8 +84,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 //        getWindow().setBackgroundDrawable(null);
         //banner
-        Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
-
+        if (Constant.REMOTE_BANNER_ALL) {
+            Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
+        }
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
         alertDialog.setCancelable(false);
@@ -129,11 +130,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         //
-        if(checkAdsResume){
+        if (checkAdsResume) {
             AppOpenManager.getInstance().enableAppResume();
         }
         //
-        if(Constant.checkResumeGallery){
+        if (Constant.checkResumeGallery) {
             AppOpenManager.getInstance().enableAppResumeWithActivity(HomeActivity.class);
         }
     }
@@ -180,23 +181,27 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         FrameLayout flNative = dialog.findViewById(R.id.fl_native);
 
         // load ads native exit
-        try {
-            Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
-                @Override
-                public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
-                    flNative.removeAllViews();
-                    flNative.addView(adView);
-                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
-                }
+        if (Constant.REMOTE_NATIVE_EXIT) {
+            try {
+                Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
+                        flNative.removeAllViews();
+                        flNative.addView(adView);
+                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                    }
 
-                @Override
-                public void onAdFailedToLoad() {
-                    flNative.removeAllViews();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onAdFailedToLoad() {
+                        flNative.removeAllViews();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                flNative.removeAllViews();
+            }
+        } else {
             flNative.removeAllViews();
         }
 

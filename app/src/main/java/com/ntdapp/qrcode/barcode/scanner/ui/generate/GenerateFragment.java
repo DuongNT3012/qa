@@ -28,6 +28,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
@@ -71,27 +72,33 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
         //load inter Generate
-        if (mInterstitialGenerate == null) {
-            loadInterGenerate();
+        if (Constant.REMOTE_INTER_GENERATE) {
+            if (mInterstitialGenerate == null) {
+                loadInterGenerate();
+            }
         }
         // load ads native generate
-        try {
-            Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
-                @Override
-                public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(mContext).inflate(R.layout.ads_native_large, null);
-                    mBinding.flNative.removeAllViews();
-                    mBinding.flNative.addView(adView);
-                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
-                }
+        if (Constant.REMOTE_NATIVE_GENERATE) {
+            try {
+                Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeAdView adView = (NativeAdView) LayoutInflater.from(mContext).inflate(R.layout.ads_native_large, null);
+                        mBinding.flNative.removeAllViews();
+                        mBinding.flNative.addView(adView);
+                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                    }
 
-                @Override
-                public void onAdFailedToLoad() {
-                    mBinding.flNative.removeAllViews();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onAdFailedToLoad() {
+                        mBinding.flNative.removeAllViews();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBinding.flNative.removeAllViews();
+            }
+        } else {
             mBinding.flNative.removeAllViews();
         }
 

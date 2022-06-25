@@ -22,6 +22,7 @@ import com.amazic.ads.util.Admod;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.itemtouch.OnStartDragListener;
 import com.ntdapp.qrcode.barcode.scanner.helpers.itemtouch.SimpleItemTouchHelperCallback;
@@ -82,8 +83,10 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mInterstitialScanResult == null) {
-            loadInterScanResult();
+        if (Constant.REMOTE_INTER_SCAN_RESULT) {
+            if (mInterstitialScanResult == null) {
+                loadInterScanResult();
+            }
         }
         if (mContext != null) {
             mBinding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(mContext));

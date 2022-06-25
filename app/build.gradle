@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
+    implementation 'com.google.firebase:firebase-config:21.0.1'
 
     //applovin mediation
     implementation 'com.google.ads.mediation:applovin:10.3.3.0'

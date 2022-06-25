@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
@@ -43,6 +44,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
+
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityScanResultBinding;
 
@@ -89,23 +91,27 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        try {
-            Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new NativeCallback() {
-                @Override
-                public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(ScanResultActivity.this).inflate(R.layout.ads_native_large, null);
-                    mBinding.flNative.removeAllViews();
-                    mBinding.flNative.addView(adView);
-                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
-                }
+        if (Constant.REMOTE_NATIVE_SCAN_RESULT) {
+            try {
+                Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new NativeCallback() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeAdView adView = (NativeAdView) LayoutInflater.from(ScanResultActivity.this).inflate(R.layout.ads_native_large, null);
+                        mBinding.flNative.removeAllViews();
+                        mBinding.flNative.addView(adView);
+                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                    }
 
-                @Override
-                public void onAdFailedToLoad() {
-                    mBinding.flNative.removeAllViews();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onAdFailedToLoad() {
+                        mBinding.flNative.removeAllViews();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBinding.flNative.removeAllViews();
+            }
+        } else {
             mBinding.flNative.removeAllViews();
         }
 
@@ -253,7 +259,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
                     } else {
                         Toast.makeText(ScanResultActivity.this, "incorrect syntax to open!", Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception exception){
+                } catch (Exception exception) {
                     Log.e("incorrect syntax", exception.toString());
                 }
                 break;

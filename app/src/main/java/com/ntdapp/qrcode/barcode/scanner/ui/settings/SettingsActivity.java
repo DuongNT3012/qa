@@ -46,23 +46,27 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native setting
-        try {
-            Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new NativeCallback() {
-                @Override
-                public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(SettingsActivity.this).inflate(R.layout.ads_native_large, null);
-                    mBinding.flNative.removeAllViews();
-                    mBinding.flNative.addView(adView);
-                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
-                }
+        if (Constant.REMOTE_NATIVE_SETTING) {
+            try {
+                Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new NativeCallback() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeAdView adView = (NativeAdView) LayoutInflater.from(SettingsActivity.this).inflate(R.layout.ads_native_large, null);
+                        mBinding.flNative.removeAllViews();
+                        mBinding.flNative.addView(adView);
+                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                    }
 
-                @Override
-                public void onAdFailedToLoad() {
-                    mBinding.flNative.removeAllViews();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onAdFailedToLoad() {
+                        mBinding.flNative.removeAllViews();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBinding.flNative.removeAllViews();
+            }
+        } else {
             mBinding.flNative.removeAllViews();
         }
 
@@ -75,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @Override
     protected void onResume() {
         super.onResume();
-        if(checkResume){
+        if (checkResume) {
             AppOpenManager.getInstance().enableAppResume();
         }
     }
@@ -181,12 +185,12 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         catchPrivacyPolicy();
     }
 
-    public void startFeedbackActivity(View view){
+    public void startFeedbackActivity(View view) {
 //        startActivity(new Intent(this, FeedbackActivity.class));
         showDialog();
     }
 
-    private void catchPrivacyPolicy(){
+    private void catchPrivacyPolicy() {
         checkResume = true;
         AppOpenManager.getInstance().disableAppResume();
         Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/trustqr-434a6.appspot.com/o/Privacy_policy.html?alt=media&token=95260c7c-ca4c-4b3e-a853-32a225063ba3");
@@ -236,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         dialog.show();
     }
 
-    private void setBack(){
+    private void setBack() {
         mBinding.icBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

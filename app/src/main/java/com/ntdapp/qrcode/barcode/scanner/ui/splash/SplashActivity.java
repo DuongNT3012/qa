@@ -11,13 +11,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazic.ads.callback.InterCallback;
 import com.amazic.ads.util.Admod;
+import com.amazic.ads.util.AppOpenManager;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
@@ -52,22 +56,45 @@ public class SplashActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         //
 
+        Constant.initRemoteConfig(new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(@NonNull Task<Boolean> task) {
+                if (task.isSuccessful()) {
+                    Constant.REMOTE_INTER_SCAN_RESULT = Constant.getRemoteConfigBoolean("inter_scan_result");
+                    Constant.REMOTE_INTER_GENERATE = Constant.getRemoteConfigBoolean("inter_generate");
+                    Constant.REMOTE_INTER_TUTORIAL = Constant.getRemoteConfigBoolean("inter_tutorial");
+                    Constant.REMOTE_NATIVE_GENERATE = Constant.getRemoteConfigBoolean("ad_native_generate");
+                    Constant.REMOTE_NATIVE_GENERATED_CODE = Constant.getRemoteConfigBoolean("ad_native_generated_code");
+                    Constant.REMOTE_NATIVE_SCAN_RESULT = Constant.getRemoteConfigBoolean("ad_native_scan_result");
+                    Constant.REMOTE_NATIVE_SETTING = Constant.getRemoteConfigBoolean("ad_native_setting");
+                    Constant.REMOTE_NATIVE_EXIT = Constant.getRemoteConfigBoolean("ad_native_exit");
+                    Constant.REMOTE_BANNER_ALL = Constant.getRemoteConfigBoolean("ad_banner_all");
+                }
+            }
+        });
+
         Admod.getInstance().setOpenActivityAfterShowInterAds(checkPermission(getPermission()));
 
         initializeViews();
         animateLogo();
-        if (Constant.haveNetworkConnection(this)) {
-            Admod.getInstance().loadSplashInterAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new InterCallback() {
-                @Override
-                public void onAdClosed() {
-                    goToMainPage();
-                }
+        if (Constant.REMOTE_INTER_SPLASH) {
+            if (Constant.haveNetworkConnection(this)) {
+                Admod.getInstance().loadSplashInterAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new InterCallback() {
+                    @Override
+                    public void onAdClosed() {
+                        goToMainPage();
+                    }
 
-                @Override
-                public void onAdFailedToLoad(LoadAdError i) {
+                    @Override
+                    public void onAdFailedToLoad(LoadAdError i) {
+                        goToMainPage();
+                    }
+                });
+            } else {
+                new Handler().postDelayed(() -> {
                     goToMainPage();
-                }
-            });
+                }, SPLASH_DELAY);
+            }
         } else {
             new Handler().postDelayed(() -> {
                 goToMainPage();

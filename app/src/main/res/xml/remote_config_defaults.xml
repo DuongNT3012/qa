@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>ad_app_open_resume</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>inter_splash</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>inter_scan_result</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>inter_generate</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>inter_tutorial</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_native_generate</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_native_generated_code</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_native_scan_result</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_native_setting</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_native_exit</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>ad_banner_all</key>
+        <value>true</value>
+    </entry>
+</defaultsMap>

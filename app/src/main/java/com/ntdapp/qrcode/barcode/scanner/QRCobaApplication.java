@@ -2,10 +2,13 @@ package com.ntdapp.qrcode.barcode.scanner;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
 import com.amazic.ads.util.AdsApplication;
 import com.amazic.ads.util.AppOpenManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.splash.SplashActivity;
@@ -33,7 +36,18 @@ public class QRCobaApplication extends AdsApplication {
         SharedPrefUtil.init(getApplicationContext());
         DatabaseUtil.init(getApplicationContext());
 
-        AppOpenManager.getInstance().disableAppResumeWithActivity(SplashActivity.class);
+        Constant.initRemoteConfig(new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(@NonNull Task<Boolean> task) {
+                if (task.isSuccessful()) {
+                    Constant.REMOTE_INTER_SPLASH = Constant.getRemoteConfigBoolean("inter_splash");
+                    Constant.REMOTE_RESUME = Constant.getRemoteConfigBoolean("ad_app_open_resume");
+                    if (enableAdsResume()) {
+                        AppOpenManager.getInstance().disableAppResumeWithActivity(SplashActivity.class);
+                    }
+                }
+            }
+        });
     }
 
     @Override

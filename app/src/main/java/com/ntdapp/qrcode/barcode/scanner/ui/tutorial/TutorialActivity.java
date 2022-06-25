@@ -18,6 +18,7 @@ import com.amazic.ads.callback.InterCallback;
 import com.amazic.ads.util.Admod;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 
@@ -43,8 +44,10 @@ public class TutorialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial);
 
         // Ads Inter
-        if (mInterstitialTutorial == null) {
-            loadInterTutorial();
+        if (Constant.REMOTE_INTER_TUTORIAL) {
+            if (mInterstitialTutorial == null) {
+                loadInterTutorial();
+            }
         }
 
         viewPager2 = findViewById(R.id.view_pager2);

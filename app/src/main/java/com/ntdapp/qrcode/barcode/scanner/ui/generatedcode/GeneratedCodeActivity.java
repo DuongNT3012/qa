@@ -44,6 +44,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.AppConstants;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
@@ -133,23 +134,27 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        try {
-            Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
-                @Override
-                public void onNativeAdLoaded(NativeAd nativeAd) {
-                    NativeAdView adView = (NativeAdView) LayoutInflater.from(GeneratedCodeActivity.this).inflate(R.layout.ads_native_large, null);
-                    mBinding.flNative.removeAllViews();
-                    mBinding.flNative.addView(adView);
-                    Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
-                }
+        if (Constant.REMOTE_NATIVE_GENERATED_CODE) {
+            try {
+                Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeAdView adView = (NativeAdView) LayoutInflater.from(GeneratedCodeActivity.this).inflate(R.layout.ads_native_large, null);
+                        mBinding.flNative.removeAllViews();
+                        mBinding.flNative.addView(adView);
+                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                    }
 
-                @Override
-                public void onAdFailedToLoad() {
-                    mBinding.flNative.removeAllViews();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onAdFailedToLoad() {
+                        mBinding.flNative.removeAllViews();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBinding.flNative.removeAllViews();
+            }
+        } else {
             mBinding.flNative.removeAllViews();
         }
 
