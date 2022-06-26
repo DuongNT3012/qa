@@ -16,16 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.amazic.ads.callback.InterCallback;
-import com.amazic.ads.util.Admod;
-import com.amazic.ads.util.AppOpenManager;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
-import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
-
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.ui.tutorial.TutorialActivity;
 
@@ -79,14 +76,16 @@ public class SplashActivity extends AppCompatActivity {
         animateLogo();
         if (Constant.REMOTE_INTER_SPLASH) {
             if (Constant.haveNetworkConnection(this)) {
-                Admod.getInstance().loadSplashInterAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new InterCallback() {
+                Admod.getInstance().loadSplashInterstitalAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new AdCallback(){
                     @Override
                     public void onAdClosed() {
+                        super.onAdClosed();
                         goToMainPage();
                     }
 
                     @Override
-                    public void onAdFailedToLoad(LoadAdError i) {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         goToMainPage();
                     }
                 });

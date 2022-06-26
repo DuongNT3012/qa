@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +33,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.amazic.ads.callback.NativeCallback;
-import com.amazic.ads.util.Admod;
-import com.amazic.ads.util.AppOpenManager;
+import com.ads.control.ads.Admod;
+import com.ads.control.ads.AppOpenManager;
+import com.ads.control.funtion.AdCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.play.core.review.ReviewInfo;
@@ -45,15 +47,14 @@ import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.RatingDialog;
 import com.ntdapp.qrcode.barcode.scanner.SharePrefUtils;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHomeBinding;
 import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.scan.ScanFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -183,17 +184,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // load ads native exit
         if (Constant.REMOTE_NATIVE_EXIT) {
             try {
-                Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new NativeCallback() {
+                Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new AdCallback() {
                     @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        super.onUnifiedNativeAdLoaded(nativeAd);
                         NativeAdView adView = (NativeAdView) LayoutInflater.from(HomeActivity.this).inflate(R.layout.ads_native_large, null);
                         flNative.removeAllViews();
                         flNative.addView(adView);
-                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                        Admod.getInstance().populateUnifiedNativeAdView(nativeAd, adView);
                     }
 
                     @Override
-                    public void onAdFailedToLoad() {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         flNative.removeAllViews();
                     }
                 });

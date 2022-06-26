@@ -24,10 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 
-import com.amazic.ads.callback.InterCallback;
-import com.amazic.ads.util.Admod;
-import com.amazic.ads.util.AppOpenManager;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.ads.control.ads.AppOpenManager;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -42,6 +39,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.AppConstants;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
@@ -61,8 +59,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
 
 
 public class ScanFragment extends androidx.fragment.app.Fragment implements View.OnClickListener {
@@ -237,6 +233,7 @@ public class ScanFragment extends androidx.fragment.app.Fragment implements View
                 ImagePicker.pickImage(this);
                 Constant.checkResumeGallery = true;
                 AppOpenManager.getInstance().disableAppResumeWithActivity(HomeActivity.class);
+                AppOpenManager.getInstance().disableAppResumeWithActivity(PickedFromGalleryActivity.class);
                 break;
 
             default:

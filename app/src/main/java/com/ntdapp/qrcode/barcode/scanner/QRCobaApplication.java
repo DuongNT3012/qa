@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
-import com.amazic.ads.util.AdsApplication;
-import com.amazic.ads.util.AppOpenManager;
+import com.ads.control.ads.AppOpenManager;
+import com.ads.control.ads.application.AdsApplication;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
@@ -61,7 +61,22 @@ public class QRCobaApplication extends AdsApplication {
     }
 
     @Override
-    public String getResumeAdId() {
+    public String getOpenAppAdId() {
         return getString(R.string.ad_app_open_resume);
+    }
+
+    @Override
+    public Boolean buildDebug() {
+        return true;
+    }
+
+    @Override
+    public boolean enableAdjust() {
+        return false;
+    }
+
+    @Override
+    public String getAdjustToken() {
+        return null;
     }
 }

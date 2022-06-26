@@ -17,13 +17,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.amazic.ads.callback.NativeCallback;
-import com.amazic.ads.util.Admod;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -45,6 +47,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityGeneratedCodeBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.AppConstants;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
@@ -63,9 +67,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityGeneratedCodeBinding;
 
 public class GeneratedCodeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -136,17 +137,19 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         // load ads native generated code
         if (Constant.REMOTE_NATIVE_GENERATED_CODE) {
             try {
-                Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new NativeCallback() {
+                Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new AdCallback() {
                     @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        super.onUnifiedNativeAdLoaded(nativeAd);
                         NativeAdView adView = (NativeAdView) LayoutInflater.from(GeneratedCodeActivity.this).inflate(R.layout.ads_native_large, null);
                         mBinding.flNative.removeAllViews();
                         mBinding.flNative.addView(adView);
-                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                        Admod.getInstance().populateUnifiedNativeAdView(nativeAd, adView);
                     }
 
                     @Override
-                    public void onAdFailedToLoad() {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         mBinding.flNative.removeAllViews();
                     }
                 });

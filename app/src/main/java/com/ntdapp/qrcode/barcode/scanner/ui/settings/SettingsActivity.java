@@ -14,23 +14,25 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.amazic.ads.callback.NativeCallback;
-import com.amazic.ads.util.Admod;
-import com.amazic.ads.util.AppOpenManager;
+import com.ads.control.ads.Admod;
+import com.ads.control.ads.AppOpenManager;
+import com.ads.control.funtion.AdCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivitySettingsBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.about_us.AboutUsActivity;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
@@ -48,17 +50,19 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         // load ads native setting
         if (Constant.REMOTE_NATIVE_SETTING) {
             try {
-                Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new NativeCallback() {
+                Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new AdCallback() {
                     @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        super.onUnifiedNativeAdLoaded(nativeAd);
                         NativeAdView adView = (NativeAdView) LayoutInflater.from(SettingsActivity.this).inflate(R.layout.ads_native_large, null);
                         mBinding.flNative.removeAllViews();
                         mBinding.flNative.addView(adView);
-                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                        Admod.getInstance().populateUnifiedNativeAdView(nativeAd, adView);
                     }
 
                     @Override
-                    public void onAdFailedToLoad() {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         mBinding.flNative.removeAllViews();
                     }
                 });

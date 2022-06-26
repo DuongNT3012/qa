@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amazic.ads.callback.InterCallback;
-import com.amazic.ads.util.Admod;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -150,7 +150,7 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
 
     @Override
     public void onItemClick(View view, Code item, int position) {
-        Admod.getInstance().showInterAds(mContext, mInterstitialScanResult, new InterCallback() {
+        Admod.getInstance().forceShowInterstitial(mContext, mInterstitialScanResult, new AdCallback() {
             @Override
             public void onAdClosed() {
                 code = item;
@@ -179,11 +179,15 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     }
 
     private void loadInterScanResult() {
-        Admod.getInstance().loadInterAds(mContext, getString(R.string.inter_scan_result), new InterCallback() {
+        Admod.getInstance().getInterstitalAds(mContext, getString(R.string.inter_scan_result), new AdCallback(){
             @Override
-            public void onInterstitialLoad(InterstitialAd interstitialAd) {
+            public void onInterstitialLoad(@Nullable InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
                 mInterstitialScanResult = interstitialAd;
+            }
+            @Override
+            public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                super.onAdFailedToLoad(i);
             }
         });
     }

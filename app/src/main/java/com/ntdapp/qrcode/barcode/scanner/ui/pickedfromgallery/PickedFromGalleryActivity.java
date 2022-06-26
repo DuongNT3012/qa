@@ -11,7 +11,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.ads.control.ads.AppOpenManager;
 import com.bumptech.glide.Glide;
+import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
@@ -53,6 +55,14 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
         setListeners();
         setBack();
         getSetting();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Constant.checkResumeGallery){
+            AppOpenManager.getInstance().enableAppResumeWithActivity(PickedFromGalleryActivity.class);
+        }
     }
 
     private void initializeToolbar() {

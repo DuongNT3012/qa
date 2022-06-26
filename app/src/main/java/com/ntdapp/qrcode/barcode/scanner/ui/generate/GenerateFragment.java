@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,31 +13,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-//import com.google.android.gms.ads.AdListener;
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.InterstitialAd;
-import com.amazic.ads.callback.InterCallback;
-import com.amazic.ads.callback.NativeCallback;
-import com.amazic.ads.util.Admod;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.databinding.FragmentGenerateBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
-import com.ntdapp.qrcode.barcode.scanner.databinding.FragmentGenerateBinding;
-import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
 
 public class GenerateFragment extends androidx.fragment.app.Fragment implements View.OnClickListener {
 
@@ -80,17 +74,19 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         // load ads native generate
         if (Constant.REMOTE_NATIVE_GENERATE) {
             try {
-                Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new NativeCallback() {
+                Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new AdCallback() {
                     @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        super.onUnifiedNativeAdLoaded(nativeAd);
                         NativeAdView adView = (NativeAdView) LayoutInflater.from(mContext).inflate(R.layout.ads_native_large, null);
                         mBinding.flNative.removeAllViews();
                         mBinding.flNative.addView(adView);
-                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                        Admod.getInstance().populateUnifiedNativeAdView(nativeAd, adView);
                     }
 
                     @Override
-                    public void onAdFailedToLoad() {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         mBinding.flNative.removeAllViews();
                     }
                 });
@@ -109,11 +105,16 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
     }
 
     private void loadInterGenerate() {
-        Admod.getInstance().loadInterAds(mContext, getString(R.string.inter_generate), new InterCallback() {
+        Admod.getInstance().getInterstitalAds(mContext, getString(R.string.inter_generate), new AdCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
                 mInterstitialGenerate = interstitialAd;
+            }
+
+            @Override
+            public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                super.onAdFailedToLoad(i);
             }
         });
     }
@@ -215,7 +216,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                                 getString(R.string.invalid_entry),
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Admod.getInstance().showInterAds(mContext, mInterstitialGenerate, new InterCallback() {
+                        Admod.getInstance().forceShowInterstitial(mContext, mInterstitialGenerate, new AdCallback() {
                             @Override
                             public void onAdClosed() {
                                 startActivity(intent);

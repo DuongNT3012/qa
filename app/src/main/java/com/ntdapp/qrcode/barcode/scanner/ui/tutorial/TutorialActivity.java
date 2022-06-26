@@ -1,5 +1,11 @@
 package com.ntdapp.qrcode.barcode.scanner.ui.tutorial;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,15 +13,8 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.amazic.ads.callback.InterCallback;
-import com.amazic.ads.util.Admod;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
@@ -101,7 +100,7 @@ public class TutorialActivity extends AppCompatActivity {
                         btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
+                                Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
                                     @Override
                                     public void onAdClosed() {
                                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -126,7 +125,7 @@ public class TutorialActivity extends AppCompatActivity {
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Admod.getInstance().showInterAds(TutorialActivity.this, mInterstitialTutorial, new InterCallback() {
+                Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
                     @Override
                     public void onAdClosed() {
                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -145,11 +144,16 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void loadInterTutorial() {
-        Admod.getInstance().loadInterAds(this, getString(R.string.inter_tutorial), new InterCallback() {
+        Admod.getInstance().getInterstitalAds(this, getString(R.string.inter_tutorial), new AdCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
                 mInterstitialTutorial = interstitialAd;
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError i) {
+                super.onAdFailedToLoad(i);
             }
         });
     }

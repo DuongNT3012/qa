@@ -51,7 +51,7 @@
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@+id/constraint_layout_scan_container">
 
-            <include layout="@layout/layout_banner" />
+            <include layout="@layout/layout_banner_control" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

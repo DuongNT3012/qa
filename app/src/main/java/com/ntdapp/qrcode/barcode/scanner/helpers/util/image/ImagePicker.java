@@ -70,7 +70,7 @@ public class ImagePicker {
     public static Intent getImagePickingIntent(Context context) {
         if (context == null) return null;
 
-        Intent chooserIntent = null;
+        /*Intent chooserIntent = null;
 
         List<Intent> intentList = new ArrayList<>();
 
@@ -85,7 +85,15 @@ public class ImagePicker {
                     Intent.createChooser(intentList.remove(intentList.size() - 1), PICKER_TITLE);
             chooserIntent
                     .putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
-        }
+        }*/
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, PICKER_TITLE);
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
         return chooserIntent;
     }

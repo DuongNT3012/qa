@@ -16,25 +16,29 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.amazic.ads.callback.NativeCallback;
-import com.amazic.ads.util.Admod;
+import com.ads.control.ads.Admod;
+import com.ads.control.funtion.AdCallback;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
+import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityScanResultBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.TimeUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
-import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
 import java.io.File;
@@ -44,9 +48,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
-
-import com.ntdapp.qrcode.barcode.scanner.R;
-import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityScanResultBinding;
 
 public class ScanResultActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -93,17 +94,19 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         // load ads native generated code
         if (Constant.REMOTE_NATIVE_SCAN_RESULT) {
             try {
-                Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new NativeCallback() {
+                Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new AdCallback() {
                     @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        super.onUnifiedNativeAdLoaded(nativeAd);
                         NativeAdView adView = (NativeAdView) LayoutInflater.from(ScanResultActivity.this).inflate(R.layout.ads_native_large, null);
                         mBinding.flNative.removeAllViews();
                         mBinding.flNative.addView(adView);
-                        Admod.getInstance().pushAdsToViewCustom(nativeAd, adView);
+                        Admod.getInstance().populateUnifiedNativeAdView(nativeAd, adView);
                     }
 
                     @Override
-                    public void onAdFailedToLoad() {
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
                         mBinding.flNative.removeAllViews();
                     }
                 });
