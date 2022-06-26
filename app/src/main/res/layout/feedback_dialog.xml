@@ -78,7 +78,9 @@
             android:button="@null"
             android:checked="true"
             android:gravity="center"
-            android:background="@drawable/btn_send_feedback"
+            android:background="@drawable/btn_generated_qr_code"
+            android:text="@string/Send"
+            android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@+id/appCompatButton"
             app:layout_constraintTop_toTopOf="parent" />
     </RadioGroup>
