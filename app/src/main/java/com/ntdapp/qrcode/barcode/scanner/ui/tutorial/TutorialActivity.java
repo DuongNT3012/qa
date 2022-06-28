@@ -19,6 +19,7 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public class TutorialActivity extends AppCompatActivity {
     private LinearLayout banner;
     private InterstitialAd mInterstitialTutorial;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
@@ -56,9 +57,9 @@ public class TutorialActivity extends AppCompatActivity {
 
         mHelpGuid = new ArrayList<>();
 
-        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide1, "Scan QRCode, BarCode with your camera"));
-        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide2, "Enter the content, select the type of code you want to generate"));
-        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide3, "Click here to view your scan history"));
+        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide1, getResources().getString(R.string.Scan_QRCode_BarCode_with_your_camera)));
+        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide2, getResources().getString(R.string.Enter_the_content)));
+        mHelpGuid.add(new HelpGuidModel(R.drawable.img_guide3, getResources().getString(R.string.Click_here_to)));
 
         tutorialAdapter = new TutorialAdapter(mHelpGuid, this);
 
@@ -87,7 +88,7 @@ public class TutorialActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                     case 1:
-                        btnNext.setText("Next");
+                        btnNext.setText(getResources().getString(R.string.Next));
                         btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -96,7 +97,7 @@ public class TutorialActivity extends AppCompatActivity {
                         });
                         break;
                     case 2:
-                        btnNext.setText("Get started");
+                        btnNext.setText(getResources().getString(R.string.Get_started));
                         btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

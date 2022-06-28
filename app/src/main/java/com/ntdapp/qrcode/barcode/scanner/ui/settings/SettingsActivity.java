@@ -32,7 +32,9 @@ import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivitySettingsBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.PreferenceKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.about_us.AboutUsActivity;
+import com.ntdapp.qrcode.barcode.scanner.ui.language_nav.LanguageNavActivity;
 
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
@@ -42,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
 
@@ -192,6 +195,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void startFeedbackActivity(View view) {
 //        startActivity(new Intent(this, FeedbackActivity.class));
         showDialog();
+    }
+
+    public void startLanguageActivity(View view){
+        startActivity(new Intent(this, LanguageNavActivity.class));
+        finish();
     }
 
     private void catchPrivacyPolicy() {

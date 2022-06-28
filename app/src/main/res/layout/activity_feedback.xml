@@ -81,7 +81,7 @@
                             android:layout_marginEnd="@dimen/margin_16"
                             android:layout_marginBottom="@dimen/margin_16"
                             android:justificationMode="inter_word"
-                            android:text="@string/lorem_ipsum"
+                            android:text="@string/app_name"
                             android:textSize="@dimen/text_body" />
 
                         <androidx.appcompat.widget.AppCompatButton

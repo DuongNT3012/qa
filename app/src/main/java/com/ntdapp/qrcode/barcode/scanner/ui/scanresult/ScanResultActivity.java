@@ -39,6 +39,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.TimeUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
 import java.io.File;
@@ -85,6 +86,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_scan_result);
         setCompositeDisposable(new CompositeDisposable());

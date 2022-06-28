@@ -54,6 +54,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.FileUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.ProgressDialogUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -126,6 +127,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_generated_code);
         setCompositeDisposable(new CompositeDisposable());

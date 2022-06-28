@@ -16,12 +16,14 @@ import androidx.databinding.DataBindingUtil;
 
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityFeedbackBinding;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 
 public class FeedbackActivity extends AppCompatActivity {
     private ActivityFeedbackBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_feedback);
         setBack();
@@ -80,8 +82,7 @@ public class FeedbackActivity extends AppCompatActivity {
         dialog.show();
     }
     private String mail(){
-        String mailTest = "hoanganh710pt@gmail.com";
-        String mailThat = "anhnt.android@gmail.com";
+        String mailThat = "nguyenduong30121999@gmail.com";
         return mailThat;
     }
 }

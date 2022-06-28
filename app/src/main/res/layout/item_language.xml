@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relay_english"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_42sdp"
+    android:layout_marginHorizontal="@dimen/_8sdp"
+    android:layout_marginTop="@dimen/_8sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:background="@color/white"
+    android:paddingVertical="@dimen/_10sdp"
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="English"
+            android:textColor="#2D4C5C"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/img_selected"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_done"
+            tools:ignore="RtlSymmetry" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

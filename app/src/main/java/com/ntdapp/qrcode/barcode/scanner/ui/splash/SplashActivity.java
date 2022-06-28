@@ -1,7 +1,9 @@
 package com.ntdapp.qrcode.barcode.scanner.ui.splash;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.R;
+import com.ntdapp.qrcode.barcode.scanner.ui.language.LanguageActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.tutorial.TutorialActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -40,6 +43,8 @@ public class SplashActivity extends AppCompatActivity {
     private TextView mtvSplash;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private SharedPreferences sharedPreferences;
+    private boolean languageActivity = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -76,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
         animateLogo();
         if (Constant.REMOTE_INTER_SPLASH) {
             if (Constant.haveNetworkConnection(this)) {
-                Admod.getInstance().loadSplashInterstitalAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new AdCallback(){
+                Admod.getInstance().loadSplashInterstitalAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new AdCallback() {
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();
@@ -102,6 +107,8 @@ public class SplashActivity extends AppCompatActivity {
         /*new Handler().postDelayed(() -> {
             goToMainPage();
         }, SPLASH_DELAY);*/
+        sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE);
+        languageActivity = sharedPreferences.getBoolean("languageActivity", false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -131,10 +138,13 @@ public class SplashActivity extends AppCompatActivity {
      * This method takes user to the main page
      */
     private void goToMainPage() {
-        //new Handler().postDelayed(() -> {
-        startActivity(new Intent(SplashActivity.this, TutorialActivity.class));
-        finish();
-        //}, SPLASH_DELAY);
+        if (languageActivity) {
+            startActivity(new Intent(SplashActivity.this, TutorialActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(SplashActivity.this, LanguageActivity.class));
+            finish();
+        }
     }
 
     /**

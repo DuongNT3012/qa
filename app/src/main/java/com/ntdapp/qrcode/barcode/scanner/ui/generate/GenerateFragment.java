@@ -29,6 +29,7 @@ import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.FragmentGenerateBinding;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
 
 import java.util.regex.Matcher;
@@ -55,6 +56,12 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(getContext());
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -146,7 +153,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
 //                R.array.code_types, android.R.layout.simple_spinner_item);
 //        arrayAdapter.setDropDownViewResource(R.layout.item_spinner);
 //        mBinding.spinnerTypes.setAdapter(arrayAdapter);
-        String[] code_types = {"Select Type", "QR Code", "Bar Code"};
+        String[] code_types = {getResources().getString(R.string.Select_Type), "QR Code", "Bar Code"};
         ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(getActivity(), R.layout.spinner_text, code_types);
         langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
         mBinding.spinnerTypes.setAdapter(langAdapter);

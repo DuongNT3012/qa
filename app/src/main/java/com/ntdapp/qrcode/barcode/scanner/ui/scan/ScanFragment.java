@@ -49,6 +49,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.util.ProgressDialogUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.image.ImageInfo;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.image.ImagePicker;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.pickedfromgallery.PickedFromGalleryActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
@@ -82,6 +83,12 @@ public class ScanFragment extends androidx.fragment.app.Fragment implements View
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(getContext());
+        super.onCreate(savedInstanceState);
     }
 
     @Override

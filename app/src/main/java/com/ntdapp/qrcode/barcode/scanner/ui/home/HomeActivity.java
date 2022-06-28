@@ -51,6 +51,7 @@ import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.RatingDialog;
 import com.ntdapp.qrcode.barcode.scanner.SharePrefUtils;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityHomeBinding;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.generate.GenerateFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.history.HistoryFragment;
 import com.ntdapp.qrcode.barcode.scanner.ui.scan.ScanFragment;
@@ -80,6 +81,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 

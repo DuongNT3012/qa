@@ -11,16 +11,19 @@ import androidx.databinding.DataBindingUtil;
 import com.ntdapp.qrcode.barcode.scanner.BuildConfig;
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityAboutUsBinding;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.language.LanguageActivity;
 
 public class AboutUsActivity extends AppCompatActivity {
 
     ActivityAboutUsBinding mActivityAboutUsBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         mActivityAboutUsBinding = DataBindingUtil.setContentView(this, R.layout.activity_about_us);
         initializeToolbar();
-        mActivityAboutUsBinding.textViewAboutVersion.setText("Version" + ": " + BuildConfig.VERSION_NAME);
+        mActivityAboutUsBinding.textViewAboutVersion.setText(getResources().getString(R.string.Version) + ": " + BuildConfig.VERSION_NAME);
         setBack();
     }
 

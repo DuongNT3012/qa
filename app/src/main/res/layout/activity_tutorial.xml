@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:text="Skip"
+        android:text="@string/Skip"
         android:textStyle="bold"
         android:textColor="#929292"
         android:textSize="17sp"/>
@@ -46,10 +46,13 @@
         android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@drawable/bg_guide_button"
-        android:text="Next"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_guide_button"
+        android:text="@string/Next"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 </RelativeLayout>

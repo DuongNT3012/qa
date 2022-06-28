@@ -112,4 +112,5 @@ dependencies {
 
     //indicator
     implementation 'me.relex:circleindicator:2.1.6'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 }

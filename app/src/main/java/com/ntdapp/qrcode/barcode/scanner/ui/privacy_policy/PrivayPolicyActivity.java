@@ -10,12 +10,14 @@ import androidx.databinding.DataBindingUtil;
 
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityPrivayPolicyBinding;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 
 public class PrivayPolicyActivity extends AppCompatActivity {
 
     ActivityPrivayPolicyBinding activity_privay_policy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         activity_privay_policy= DataBindingUtil.setContentView(this, R.layout.activity_privay_policy);
         initializeToolbar();

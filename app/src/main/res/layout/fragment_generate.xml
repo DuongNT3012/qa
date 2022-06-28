@@ -131,7 +131,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_body"
-                            android:text="Generate"
+                            android:text="@string/generate"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/coordinator_layout_spinner_container"

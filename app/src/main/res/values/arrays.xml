@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="code_types">
-        <item>Select Type</item>
+        <item>@string/Select_Type</item>
         <item>QR Code</item>
         <item>Bar Code</item>
     </string-array>

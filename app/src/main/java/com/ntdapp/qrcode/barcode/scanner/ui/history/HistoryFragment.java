@@ -29,6 +29,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.itemtouch.SimpleItemTouchHelper
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.ProgressDialogUtil;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.database.DatabaseUtil;
+import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.base.ItemClickListener;
 import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
 
@@ -67,6 +68,7 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
         return new HistoryFragment();
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(getContext());
         super.onCreate(savedInstanceState);
         setCompositeDisposable(new CompositeDisposable());
 
