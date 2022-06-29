@@ -12,7 +12,8 @@
     android:paddingVertical="@dimen/_10sdp"
     android:paddingStart="@dimen/_10sdp"
     android:paddingEnd="@dimen/_8sdp"
-    app:cardCornerRadius="@dimen/_10sdp">
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

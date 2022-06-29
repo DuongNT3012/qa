@@ -26,7 +26,6 @@ public class LanguageNavActivity extends AppCompatActivity implements IClickLang
     private SharedPreferences sharedPreferences = null;
     private RecyclerView rcl_language;
     private ImageView iv_back;
-    private AppCompatButton iv_done;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +35,6 @@ public class LanguageNavActivity extends AppCompatActivity implements IClickLang
 
         rcl_language = findViewById(R.id.rcl_language);
         iv_back = findViewById(R.id.iv_back);
-        iv_done = findViewById(R.id.iv_done);
         // load and show ads native language
         sharedPreferences = getSharedPreferences("MY_PRE", MODE_PRIVATE);
 
@@ -46,20 +44,6 @@ public class LanguageNavActivity extends AppCompatActivity implements IClickLang
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSubOrTur();
-                finish();
-            }
-        });
-        iv_done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (modelNav != null) {
-                    SystemUtil.setPreLanguage(LanguageNavActivity.this, modelNav.isoLanguage);
-                }
-                /*val editor = getSharedPreferences("MY_PRE", MODE_PRIVATE).edit()
-                editor.putBoolean("nativeLanguage", true)
-                editor.apply()*/
-                SystemUtil.setLocale(LanguageNavActivity.this);
                 startSubOrTur();
                 finish();
             }

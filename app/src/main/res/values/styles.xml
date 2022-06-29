@@ -2,7 +2,7 @@
 
     <style name="RadioButtonMain" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">#B6B6B6</item>
-        <item name="colorControlActivated">#1D77FF</item>
+        <item name="colorControlActivated">@color/color_4CAF50</item>
     </style>
 
     <style name="GenericTextViewStyle" parent="android:Widget.TextView">
