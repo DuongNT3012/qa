@@ -83,16 +83,9 @@ public class SystemUtil {
     public static List<String> getLanguageApp() {
         List<String> languages = new ArrayList<>();
         languages.add("en");
-        languages.add("ko");
-        languages.add("ja");
         languages.add("fr");
-        languages.add("hi");
         languages.add("pt");
         languages.add("es");
-        languages.add("in");
-        languages.add("ms");
-        languages.add("phi");
-        languages.add("zh");
         languages.add("de");
         return languages;
     }
