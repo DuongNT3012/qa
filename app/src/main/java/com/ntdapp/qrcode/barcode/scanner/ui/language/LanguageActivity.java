@@ -54,9 +54,10 @@ public class LanguageActivity extends AppCompatActivity implements IClickLanguag
         rcl_language = findViewById(R.id.rcl_language);
         iv_done = findViewById(R.id.iv_done);
 
-        fr_ads.setVisibility(View.VISIBLE);
-        loadNativeLanguage();
-
+        if (Constant.REMOTE_NATIVE_LANGUAGE) {
+            fr_ads.setVisibility(View.VISIBLE);
+            loadNativeLanguage();
+        }
         adapter = new LanguageAdapterMain(this, setLanguageDefault(), this);
         rcl_language.setAdapter(adapter);
 

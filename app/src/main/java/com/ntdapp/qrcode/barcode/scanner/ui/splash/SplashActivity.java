@@ -71,6 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                     Constant.REMOTE_NATIVE_SETTING = Constant.getRemoteConfigBoolean("ad_native_setting");
                     Constant.REMOTE_NATIVE_EXIT = Constant.getRemoteConfigBoolean("ad_native_exit");
                     Constant.REMOTE_BANNER_ALL = Constant.getRemoteConfigBoolean("ad_banner_all");
+                    Constant.REMOTE_NATIVE_LANGUAGE = Constant.getRemoteConfigBoolean("native_language");
                 }
             }
         });

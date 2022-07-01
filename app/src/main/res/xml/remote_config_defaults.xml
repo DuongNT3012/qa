@@ -44,4 +44,8 @@
         <key>ad_banner_all</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>native_language</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

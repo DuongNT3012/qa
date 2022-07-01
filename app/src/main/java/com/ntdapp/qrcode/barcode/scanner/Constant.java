@@ -23,6 +23,7 @@ public class Constant {
     public static boolean REMOTE_NATIVE_SETTING = true;
     public static boolean REMOTE_NATIVE_EXIT = true;
     public static boolean REMOTE_BANNER_ALL = true;
+    public static boolean REMOTE_NATIVE_LANGUAGE = true;
 
     public static boolean haveNetworkConnection(Context context) {
         boolean haveConnectedWifi = false;
