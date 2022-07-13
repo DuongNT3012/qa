@@ -49,7 +49,6 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     private HistoryAdapter mAdapter;
     Code code;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private InterstitialAd mInterstitialScanResult;
     //
 
     private CompositeDisposable getCompositeDisposable() {
@@ -85,11 +84,6 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (Constant.REMOTE_INTER_SCAN_RESULT) {
-            if (mInterstitialScanResult == null) {
-                loadInterScanResult();
-            }
-        }
         if (mContext != null) {
             mBinding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(mContext));
             mBinding.recyclerViewHistory.setItemAnimator(new DefaultItemAnimator());
@@ -153,45 +147,12 @@ public class HistoryFragment extends Fragment implements OnStartDragListener, It
 
     @Override
     public void onItemClick(View view, Code item, int position) {
-        Admod.getInstance().forceShowInterstitial(mContext, mInterstitialScanResult, new AdCallback() {
-            @Override
-            public void onAdClosed() {
-                code = item;
-                Log.d("codeResult", code + "");
-
-                Intent intent = new Intent(mContext, ScanResultActivity.class);
-                intent.putExtra(IntentKey.MODEL, item);
-                intent.putExtra(IntentKey.IS_HISTORY, true);
-                startActivity(intent);
-                mInterstitialScanResult = null;
-                loadInterScanResult();
-            }
-
-            @Override
-            public void onAdFailedToLoad(LoadAdError i) {
-                onAdClosed();
-            }
-        });
-        /*code = item;
+        code = item;
         Log.d("codeResult", code + "");
 
         Intent intent = new Intent(mContext, ScanResultActivity.class);
         intent.putExtra(IntentKey.MODEL, item);
         intent.putExtra(IntentKey.IS_HISTORY, true);
-        startActivity(intent);*/
-    }
-
-    private void loadInterScanResult() {
-        Admod.getInstance().getInterstitalAds(mContext, getString(R.string.inter_scan_result), new AdCallback(){
-            @Override
-            public void onInterstitialLoad(@Nullable InterstitialAd interstitialAd) {
-                super.onInterstitialLoad(interstitialAd);
-                mInterstitialScanResult = interstitialAd;
-            }
-            @Override
-            public void onAdFailedToLoad(@Nullable LoadAdError i) {
-                super.onAdFailedToLoad(i);
-            }
-        });
+        startActivity(intent);
     }
 }
