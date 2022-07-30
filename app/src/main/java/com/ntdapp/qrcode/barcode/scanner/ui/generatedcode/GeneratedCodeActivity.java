@@ -23,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
+
+import com.example.ads.AppIronSource;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
@@ -126,6 +126,12 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        AppIronSource.getInstance().loadBanner(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
@@ -137,7 +143,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        if (Constant.REMOTE_NATIVE_GENERATED_CODE) {
+        /*if (Constant.REMOTE_NATIVE_GENERATED_CODE) {
             try {
                 Admod.getInstance().loadNativeAd(GeneratedCodeActivity.this, getString(R.string.ad_native_generated_code), new AdCallback() {
                     @Override
@@ -161,7 +167,7 @@ public class GeneratedCodeActivity extends AppCompatActivity implements View.OnC
             }
         } else {
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         initializeToolbar();
         loadQRCode();

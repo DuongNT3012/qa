@@ -20,9 +20,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.ads.AppOpenManager;
-import com.ads.control.funtion.AdCallback;
+
+
+
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native setting
-        if (Constant.REMOTE_NATIVE_SETTING) {
+        /*if (Constant.REMOTE_NATIVE_SETTING) {
             try {
                 Admod.getInstance().loadNativeAd(SettingsActivity.this, getString(R.string.ad_native_setting), new AdCallback() {
                     @Override
@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             }
         } else {
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         initializeToolbar();
         loadSettings();
@@ -87,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     protected void onResume() {
         super.onResume();
         if (checkResume) {
-            AppOpenManager.getInstance().enableAppResume();
+            //AppOpenManager.getInstance().enableAppResume();
         }
     }
 
@@ -204,7 +204,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     private void catchPrivacyPolicy() {
         checkResume = true;
-        AppOpenManager.getInstance().disableAppResume();
+        //AppOpenManager.getInstance().disableAppResume();
         Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/trustqr-434a6.appspot.com/o/Privacy_policy.html?alt=media&token=95260c7c-ca4c-4b3e-a853-32a225063ba3");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
@@ -228,7 +228,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             @Override
             public void onClick(View v) {
                 checkResume = true;
-                AppOpenManager.getInstance().disableAppResume();
+                //AppOpenManager.getInstance().disableAppResume();
                 String uriText = "mailto:" + Constant.email +
                         "?subject=" + "feedback Qr code" +
                         "&body=" + "Title : " + edt_title.getText() + "\nContent: " + edt_content.getText();

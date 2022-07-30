@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 
-import com.ads.control.ads.AppOpenManager;
+
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -52,6 +52,7 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.util.image.ImagePicker;
 import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.pickedfromgallery.PickedFromGalleryActivity;
+import com.ntdapp.qrcode.barcode.scanner.ui.scan_success.SuccessActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
 
 import java.io.File;
@@ -167,7 +168,7 @@ public class ScanFragment extends androidx.fragment.app.Fragment implements View
                                         ? Code.QR_CODE : Code.BAR_CODE, result.getResult().getTimestamp());
                     }
 
-                    Intent intent = new Intent(mContext, ScanResultActivity.class);
+                    Intent intent = new Intent(mContext, SuccessActivity.class);
                     intent.putExtra(IntentKey.MODEL, code);
                     startActivity(intent);
                 } else {
@@ -239,8 +240,8 @@ public class ScanFragment extends androidx.fragment.app.Fragment implements View
             case R.id.text_view_scan_gallery:
                 ImagePicker.pickImage(this);
                 Constant.checkResumeGallery = true;
-                AppOpenManager.getInstance().disableAppResumeWithActivity(HomeActivity.class);
-                AppOpenManager.getInstance().disableAppResumeWithActivity(PickedFromGalleryActivity.class);
+                //AppOpenManager.getInstance().disableAppResumeWithActivity(HomeActivity.class);
+                //AppOpenManager.getInstance().disableAppResumeWithActivity(PickedFromGalleryActivity.class);
                 break;
 
             default:

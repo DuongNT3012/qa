@@ -11,17 +11,21 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.ads.control.ads.AppOpenManager;
+
 import com.bumptech.glide.Glide;
+import com.example.ads.AppIronSource;
+import com.example.ads.funtion.AdCallback;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
 import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
+import com.ntdapp.qrcode.barcode.scanner.ui.scan_success.SuccessActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.scanresult.ScanResultActivity;
 import com.ntdapp.qrcode.barcode.scanner.ui.settings.SettingsActivity;
 
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.databinding.ActivityPickedFromGalleryBinding;
+import com.ntdapp.qrcode.barcode.scanner.ui.tutorial.TutorialActivity;
 
 public class PickedFromGalleryActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,6 +54,10 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_picked_from_gallery);
 
+        if (!AppIronSource.getInstance().isInterstitialReady()) {
+            AppIronSource.getInstance().loadInterstitial(this, new AdCallback());
+        }
+
         initializeToolbar();
         loadQRCode();
         setListeners();
@@ -60,8 +68,8 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
     @Override
     protected void onResume() {
         super.onResume();
-        if(Constant.checkResumeGallery){
-            AppOpenManager.getInstance().enableAppResumeWithActivity(PickedFromGalleryActivity.class);
+        if (Constant.checkResumeGallery) {
+            //AppOpenManager.getInstance().enableAppResumeWithActivity(PickedFromGalleryActivity.class);
         }
     }
 
@@ -130,10 +138,27 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
         switch (v.getId()) {
             case R.id.text_view_get_value:
                 if (getCurrentCode() != null) {
-                    Intent intent = new Intent(this, ScanResultActivity.class);
-                    intent.putExtra(IntentKey.MODEL, getCurrentCode());
-                    intent.putExtra(IntentKey.IS_PICKED_FROM_GALLERY, true);
-                    startActivity(intent);
+                    if (AppIronSource.getInstance().isInterstitialReady()) {
+                        AppIronSource.getInstance().showInterstitial(PickedFromGalleryActivity.this, new AdCallback() {
+                            @Override
+                            public void onAdClosed() {
+                                super.onAdClosed();
+                                Intent intent = new Intent(PickedFromGalleryActivity.this, ScanResultActivity.class);
+                                intent.putExtra(IntentKey.MODEL, getCurrentCode());
+                                intent.putExtra(IntentKey.IS_PICKED_FROM_GALLERY, true);
+                                startActivity(intent);
+
+                                if (!AppIronSource.getInstance().isInterstitialReady()) {
+                                    AppIronSource.getInstance().loadInterstitial(PickedFromGalleryActivity.this, new AdCallback());
+                                }
+                            }
+                        });
+                    } else {
+                        Intent intent = new Intent(this, ScanResultActivity.class);
+                        intent.putExtra(IntentKey.MODEL, getCurrentCode());
+                        intent.putExtra(IntentKey.IS_PICKED_FROM_GALLERY, true);
+                        startActivity(intent);
+                    }
                 }
                 break;
 
@@ -142,7 +167,7 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
         }
     }
 
-    private void setBack(){
+    private void setBack() {
         mBinding.icBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +186,7 @@ public class PickedFromGalleryActivity extends AppCompatActivity implements View
         finish();
     }
 
-    private void getSetting(){
+    private void getSetting() {
         mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

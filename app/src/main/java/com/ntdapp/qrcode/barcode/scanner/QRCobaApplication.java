@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
-import com.ads.control.ads.AppOpenManager;
-import com.ads.control.ads.application.AdsApplication;
+import com.example.ads.AdsApplication;
+import com.example.ads.AppOpenManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ntdapp.qrcode.barcode.scanner.helpers.util.SharedPrefUtil;
@@ -43,7 +43,7 @@ public class QRCobaApplication extends AdsApplication {
                     Constant.REMOTE_INTER_SPLASH = Constant.getRemoteConfigBoolean("inter_splash");
                     Constant.REMOTE_RESUME = Constant.getRemoteConfigBoolean("ad_app_open_resume");
                     if (enableAdsResume()) {
-                        AppOpenManager.getInstance().disableAppResumeWithActivity(SplashActivity.class);
+                        //AppOpenManager.getInstance().disableAppResumeWithActivity(SplashActivity.class);
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class QRCobaApplication extends AdsApplication {
 
     @Override
     public boolean enableAdsResume() {
-        return true;
+        return false;
     }
 
     @Override
@@ -62,12 +62,7 @@ public class QRCobaApplication extends AdsApplication {
 
     @Override
     public String getOpenAppAdId() {
-        return getString(R.string.ad_app_open_resume);
-    }
-
-    @Override
-    public Boolean buildDebug() {
-        return true;
+        return "";
     }
 
     @Override

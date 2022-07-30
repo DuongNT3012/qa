@@ -33,9 +33,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.ads.AppOpenManager;
-import com.ads.control.funtion.AdCallback;
+
+import com.example.ads.AppIronSource;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
@@ -87,9 +86,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 //        getWindow().setBackgroundDrawable(null);
         //banner
-        if (Constant.REMOTE_BANNER_ALL) {
+        /*if (Constant.REMOTE_BANNER_ALL) {
             Admod.getInstance().loadBanner(HomeActivity.this, getResources().getString(R.string.ad_banner_all));
-        }
+        }*/
         alertDialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogPermission).create();
         alertDialog.setTitle("Grant Permission");
         alertDialog.setCancelable(false);
@@ -98,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @RequiresApi(api = Build.VERSION_CODES.M)
             public void onClick(DialogInterface dialogInterface, int i) {
                 checkAdsResume = true;
-                AppOpenManager.getInstance().disableAppResume();
+                //AppOpenManager.getInstance().disableAppResume();
                 alertDialog.dismiss();
                 requestPermissions(new String[]{Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1112);
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -130,15 +129,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        AppIronSource.getInstance().loadBanner(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         //
         if (checkAdsResume) {
-            AppOpenManager.getInstance().enableAppResume();
+            //AppOpenManager.getInstance().enableAppResume();
         }
         //
         if (Constant.checkResumeGallery) {
-            AppOpenManager.getInstance().enableAppResumeWithActivity(HomeActivity.class);
+            //AppOpenManager.getInstance().enableAppResumeWithActivity(HomeActivity.class);
         }
     }
 
@@ -184,7 +189,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         FrameLayout flNative = dialog.findViewById(R.id.fl_native);
 
         // load ads native exit
-        if (Constant.REMOTE_NATIVE_EXIT) {
+        /*if (Constant.REMOTE_NATIVE_EXIT) {
             try {
                 Admod.getInstance().loadNativeAd(HomeActivity.this, getString(R.string.ad_native_exit), new AdCallback() {
                     @Override
@@ -208,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             flNative.removeAllViews();
-        }
+        }*/
 
         btnOK.setOnClickListener(v -> {
             SharePrefUtils.increaseCountOpenApp(HomeActivity.this);
@@ -427,21 +432,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_view_generate:
             case R.id.constraint_layout_generate_container:
                 clickOnGenerate();
-                mBinding.banner.setVisibility(View.GONE);
+                //mBinding.banner.setVisibility(View.GONE);
                 break;
 
             case R.id.image_view_scan:
             case R.id.text_view_scan:
             case R.id.constraint_layout_scan_container:
                 clickOnScan();
-                mBinding.banner.setVisibility(View.VISIBLE);
+                //mBinding.banner.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.image_view_history:
             case R.id.text_view_history:
             case R.id.constraint_layout_history_container:
                 clickOnHistory();
-                mBinding.banner.setVisibility(View.VISIBLE);
+                //mBinding.banner.setVisibility(View.VISIBLE);
                 break;
         }
     }

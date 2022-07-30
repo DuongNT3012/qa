@@ -17,8 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
+
+import com.example.ads.AppIronSource;
+import com.example.ads.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
@@ -31,6 +32,8 @@ import com.ntdapp.qrcode.barcode.scanner.helpers.constant.IntentKey;
 import com.ntdapp.qrcode.barcode.scanner.helpers.model.Code;
 import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.generatedcode.GeneratedCodeActivity;
+import com.ntdapp.qrcode.barcode.scanner.ui.home.HomeActivity;
+import com.ntdapp.qrcode.barcode.scanner.ui.tutorial.TutorialActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,13 +76,16 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
         //load inter Generate
-        if (Constant.REMOTE_INTER_GENERATE) {
+        /*if (Constant.REMOTE_INTER_GENERATE) {
             if (mInterstitialGenerate == null) {
                 loadInterGenerate();
             }
+        }*/
+        if (!AppIronSource.getInstance().isInterstitialReady()) {
+            AppIronSource.getInstance().loadInterstitial(getActivity(), new AdCallback());
         }
         // load ads native generate
-        if (Constant.REMOTE_NATIVE_GENERATE) {
+        /*if (Constant.REMOTE_NATIVE_GENERATE) {
             try {
                 Admod.getInstance().loadNativeAd(mContext, getString(R.string.ad_native_generate), new AdCallback() {
                     @Override
@@ -103,7 +109,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
             }
         } else {
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         setListeners();
         initializeCodeTypesSpinner();
@@ -111,7 +117,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
         return mBinding.getRoot();
     }
 
-    private void loadInterGenerate() {
+    /*private void loadInterGenerate() {
         Admod.getInstance().getInterstitalAds(mContext, getString(R.string.inter_generate), new AdCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
@@ -124,7 +130,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                 super.onAdFailedToLoad(i);
             }
         });
-    }
+    }*/
 
     @Override
     public void onResume() {
@@ -223,7 +229,7 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                                 getString(R.string.invalid_entry),
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Admod.getInstance().forceShowInterstitial(mContext, mInterstitialGenerate, new AdCallback() {
+                        /*Admod.getInstance().forceShowInterstitial(mContext, mInterstitialGenerate, new AdCallback() {
                             @Override
                             public void onAdClosed() {
                                 startActivity(intent);
@@ -235,8 +241,21 @@ public class GenerateFragment extends androidx.fragment.app.Fragment implements 
                             public void onAdFailedToLoad(LoadAdError i) {
                                 onAdClosed();
                             }
-                        });
-                        //startActivity(intent);
+                        });*/
+                        if (AppIronSource.getInstance().isInterstitialReady()) {
+                            AppIronSource.getInstance().showInterstitial(getContext(), new AdCallback() {
+                                @Override
+                                public void onAdClosed() {
+                                    super.onAdClosed();
+                                    startActivity(intent);
+                                    if (!AppIronSource.getInstance().isInterstitialReady()) {
+                                        AppIronSource.getInstance().loadInterstitial(getActivity(), new AdCallback());
+                                    }
+                                }
+                            });
+                        } else {
+                            startActivity(intent);
+                        }
                     }
                 }
             } else {

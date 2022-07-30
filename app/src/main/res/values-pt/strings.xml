@@ -21,8 +21,8 @@
     <string name="error_qrcode_content_limit">O comprimento do conteúdo do QR Code deve estar entre 1 e 1000</string>
     <string name="hello_blank_fragment">Olá fragmento em branco</string>
     <string name="toolbar_title_generated_qr_code">Código QR - Gerador</string>
-    <string name="code_type">Tipo: %s</string>
-    <string name="content">Conteúdo: %s</string>
+    <string name="code_type">Tipo: </string>
+    <string name="content">Conteúdo: </string>
     <string name="saved_the_code_successfully">Salvei o código com sucesso</string>
     <string name="failed_to_save_the_code">falha ao salvar o código</string>
     <string name="failed_to_share_the_code">falhou ao compartilhar o código</string>
@@ -37,7 +37,7 @@
     <string name="error_did_not_find_any_content">Não encontrou nenhum conteúdo. Tente novamente com uma imagem diferente</string>
     <string name="toolbar_title_scan_result">Resultado do scaneamento</string>
     <string name="open_in_browser">Abra no navegador</string>
-    <string name="created_time">Hora de criação: %s</string>
+    <string name="created_time">Hora de criação: </string>
     <string name="scanned_qr_code_content">Conteúdo de código QR digitalizado</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="code_scan">Verificação de %s</string>
@@ -66,4 +66,6 @@
     <string name="Scan_QRCode_BarCode_with_your_camera">Digitalize QRCode, BarCode com sua câmera</string>
     <string name="Enter_the_content">Insira o conteúdo, selecione o tipo de código que deseja gerar</string>
     <string name="Click_here_to">Clique aqui para ver seu histórico de varreduras</string>
+    <string name="scan_success">Verificação bem-sucedida</string>
+    <string name="view_scan_result">Ver resultado da verificação</string>
 </resources>

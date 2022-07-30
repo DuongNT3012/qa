@@ -23,6 +23,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.scan_success.SuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.language.LanguageActivity"
             android:exported="false" />
         <activity
@@ -34,8 +37,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id" />
-        <!-- //applovin -->
+            android:value="@string/app_id" /> <!-- //applovin -->
         <!--
         <meta-data
             android:name="applovin.sdk.key"

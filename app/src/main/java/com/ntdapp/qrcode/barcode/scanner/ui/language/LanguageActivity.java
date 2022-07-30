@@ -4,23 +4,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.nativead.NativeAd;
-import com.google.android.gms.ads.nativead.NativeAdView;
-import com.ntdapp.qrcode.barcode.scanner.Constant;
+
+import com.example.ads.AppIronSource;
+import com.example.ads.funtion.AdCallback;
 import com.ntdapp.qrcode.barcode.scanner.R;
 import com.ntdapp.qrcode.barcode.scanner.ui.SystemUtil;
 import com.ntdapp.qrcode.barcode.scanner.ui.language.adapter.LanguageAdapterMain;
@@ -39,6 +33,12 @@ public class LanguageActivity extends AppCompatActivity implements IClickLanguag
     private AppCompatButton iv_done;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        AppIronSource.getInstance().loadBanner(this);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
@@ -46,30 +46,35 @@ public class LanguageActivity extends AppCompatActivity implements IClickLanguag
 
         // load and show ads native language
         sharedPreferences = getSharedPreferences("MY_PRE", MODE_PRIVATE);
-        //check get into language activity
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("languageActivity", true);
-        editor.apply();
+
         fr_ads = findViewById(R.id.fr_ads);
         rcl_language = findViewById(R.id.rcl_language);
         iv_done = findViewById(R.id.iv_done);
 
-        if (Constant.REMOTE_NATIVE_LANGUAGE) {
+        /*if (Constant.REMOTE_NATIVE_LANGUAGE) {
             fr_ads.setVisibility(View.VISIBLE);
             loadNativeLanguage();
+        }*/
+
+        if (!AppIronSource.getInstance().isInterstitialReady()) {
+            AppIronSource.getInstance().loadInterstitial(this, new AdCallback());
         }
+
         adapter = new LanguageAdapterMain(this, setLanguageDefault(), this);
         rcl_language.setAdapter(adapter);
 
         iv_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check get into language activity
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("languageActivity", true);
+                editor.apply();
                 if (model != null) {
                     SystemUtil.setPreLanguage(LanguageActivity.this, model.getIsoLanguage());
                 }
                 SystemUtil.setLocale(LanguageActivity.this);
-                startSubOrTur();
-                finish();
+                startNextActivity();
             }
         });
     }
@@ -107,16 +112,25 @@ public class LanguageActivity extends AppCompatActivity implements IClickLanguag
         return lists;
     }
 
-    private void startSubOrTur() {
-        showActivity(TutorialActivity.class);
+    private void startNextActivity() {
+        if (AppIronSource.getInstance().isInterstitialReady()) {
+            AppIronSource.getInstance().showInterstitial(LanguageActivity.this, new AdCallback() {
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    Intent intent = new Intent(LanguageActivity.this, TutorialActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        } else {
+            Intent intent = new Intent(LanguageActivity.this, TutorialActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
-    private void showActivity(Class activity) {
-        Intent intent = new Intent(this, activity);
-        startActivity(intent);
-    }
-
-    private void loadNativeLanguage() {
+    /*private void loadNativeLanguage() {
         try {
             Admod.getInstance()
                     .loadNativeAd(this, getString(R.string.native_language), new AdCallback() {
@@ -142,5 +156,5 @@ public class LanguageActivity extends AppCompatActivity implements IClickLanguag
         if (!Constant.haveNetworkConnection(LanguageActivity.this)) {
             fr_ads.removeAllViews();
         }
-    }
+    }*/
 }

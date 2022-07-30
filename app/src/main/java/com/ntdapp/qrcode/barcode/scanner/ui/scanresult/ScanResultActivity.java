@@ -1,5 +1,6 @@
 package com.ntdapp.qrcode.barcode.scanner.ui.scanresult;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -23,8 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
@@ -94,7 +94,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         //firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // load ads native generated code
-        if (Constant.REMOTE_NATIVE_SCAN_RESULT) {
+        /*if (Constant.REMOTE_NATIVE_SCAN_RESULT) {
             try {
                 Admod.getInstance().loadNativeAd(ScanResultActivity.this, getString(R.string.ad_native_scan_result), new AdCallback() {
                     @Override
@@ -118,7 +118,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
             }
         } else {
             mBinding.flNative.removeAllViews();
-        }
+        }*/
 
         getWindow().setBackgroundDrawable(null);
         initializeToolbar();
@@ -143,6 +143,7 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         mBinding.imageViewShare.setOnClickListener(this);
     }
 
+    @SuppressLint({"StringFormatInvalid", "SetTextI18n"})
     private void loadQRCode() {
         Intent intent = getIntent();
 
@@ -163,14 +164,14 @@ public class ScanResultActivity extends AppCompatActivity implements View.OnClic
         }
 
         if (getCurrentCode() != null) {
-            mBinding.textViewContent.setText(String.format(Locale.ENGLISH,
-                    getString(R.string.content), getCurrentCode().getContent()));
+            mBinding.textViewContent.setText(
+                    getString(R.string.content) + getCurrentCode().getContent());
 
-            mBinding.textViewType.setText(String.format(Locale.ENGLISH, getString(R.string.code_type),
-                    getResources().getStringArray(R.array.code_types)[getCurrentCode().getType()]));
+            mBinding.textViewType.setText(getString(R.string.code_type) +
+                    getResources().getStringArray(R.array.code_types)[getCurrentCode().getType()]);
 
-            mBinding.textViewTime.setText(String.format(Locale.ENGLISH, getString(R.string.created_time),
-                    TimeUtil.getFormattedDateString(getCurrentCode().getTimeStamp())));
+            mBinding.textViewTime.setText(getString(R.string.created_time) +
+                    TimeUtil.getFormattedDateString(getCurrentCode().getTimeStamp()));
 
 //            mBinding.textViewOpenInBrowser.setEnabled(URLUtil.isValidUrl(getCurrentCode().getContent()));
 

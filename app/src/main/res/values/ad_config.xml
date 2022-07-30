@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //key is test
+    <!--<string name="key_IS" translatable="false">85460dcd</string>-->
+
+    //key is real
+    <string name="key_IS" translatable="false">15b004b95</string>
+
     <!--ID TEST-->
     //ads test
     <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
@@ -14,7 +20,6 @@
     <string name="ad_native_exit" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="native_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_banner_all" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-     END
 
     //ads real
     <!--<string name="app_id" translatable="false">ca-app-pub-2049543423319084~5616533423</string>
@@ -29,5 +34,4 @@
     <string name="ad_native_exit" translatable="false">ca-app-pub-2049543423319084/6805272183</string>
     <string name="native_language" translatable="false">ca-app-pub-2049543423319084/5492190515</string>
     <string name="ad_banner_all" translatable="false">ca-app-pub-2049543423319084/4654569803</string>-->
-    <!-- END-->
 </resources>

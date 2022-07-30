@@ -18,8 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
+
+import com.example.ads.Admod;
+import com.example.ads.AppIronSource;
+import com.example.ads.funtion.AdCallback;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -80,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
 
         initializeViews();
         animateLogo();
-        if (Constant.REMOTE_INTER_SPLASH) {
+        /*if (Constant.REMOTE_INTER_SPLASH) {
             if (Constant.haveNetworkConnection(this)) {
                 Admod.getInstance().loadSplashInterstitalAds(SplashActivity.this, getString(R.string.inter_splash), 25000, 5000, new AdCallback() {
                     @Override
@@ -100,6 +103,32 @@ public class SplashActivity extends AppCompatActivity {
                     goToMainPage();
                 }, SPLASH_DELAY);
             }
+        } else {
+            new Handler().postDelayed(() -> {
+                goToMainPage();
+            }, SPLASH_DELAY);
+        }*/
+        if (Constant.haveNetworkConnection(this)) {
+            AppIronSource.getInstance().init(this, getString(R.string.key_IS), false);
+            AppIronSource.getInstance().loadSplashInterstitial(this, new AdCallback() {
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    goToMainPage();
+                }
+
+                @Override
+                public void onAdFailedToLoad(LoadAdError i) {
+                    super.onAdFailedToLoad(i);
+                    onAdClosed();
+                }
+
+                @Override
+                public void onAdFailedToShow(AdError adError) {
+                    super.onAdFailedToShow(adError);
+                    onAdClosed();
+                }
+            }, 30000);
         } else {
             new Handler().postDelayed(() -> {
                 goToMainPage();

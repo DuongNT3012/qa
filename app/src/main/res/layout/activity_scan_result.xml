@@ -90,7 +90,7 @@
                     android:layout_marginHorizontal="@dimen/margin_13"
                     android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginBottom="11dp"
-                    android:elevation="@dimen/elevation_10"
+                    app:cardElevation="0dp"
                     app:cardCornerRadius="@dimen/margin_15"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -111,7 +111,9 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/constraint_layout_body_container"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_3sdp">
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/image_view_scanned_code"
@@ -245,7 +247,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/ln_share_browser"
                                     tools:layout_editor_absoluteX="12dp"
-                                    android:visibility="visible">
+                                    android:visibility="gone">
 
                                     <include layout="@layout/ads_native_shimmer_large" />
                                 </FrameLayout>

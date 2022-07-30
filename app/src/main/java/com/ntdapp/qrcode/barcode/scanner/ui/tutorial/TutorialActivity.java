@@ -13,8 +13,9 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.ads.control.ads.Admod;
-import com.ads.control.funtion.AdCallback;
+
+import com.example.ads.AppIronSource;
+import com.example.ads.funtion.AdCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.ntdapp.qrcode.barcode.scanner.Constant;
@@ -38,16 +39,25 @@ public class TutorialActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialTutorial;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        AppIronSource.getInstance().loadBanner(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
         // Ads Inter
-        if (Constant.REMOTE_INTER_TUTORIAL) {
+        /*if (Constant.REMOTE_INTER_TUTORIAL) {
             if (mInterstitialTutorial == null) {
                 loadInterTutorial();
             }
+        }*/
+        if (!AppIronSource.getInstance().isInterstitialReady()) {
+            AppIronSource.getInstance().loadInterstitial(this, new AdCallback());
         }
 
         viewPager2 = findViewById(R.id.view_pager2);
@@ -101,7 +111,7 @@ public class TutorialActivity extends AppCompatActivity {
                         btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
+                                /*Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
                                     @Override
                                     public void onAdClosed() {
                                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -112,7 +122,20 @@ public class TutorialActivity extends AppCompatActivity {
                                     public void onAdFailedToLoad(LoadAdError i) {
                                         onAdClosed();
                                     }
-                                });
+                                });*/
+                                if (AppIronSource.getInstance().isInterstitialReady()) {
+                                    AppIronSource.getInstance().showInterstitial(TutorialActivity.this, new AdCallback() {
+                                        @Override
+                                        public void onAdClosed() {
+                                            super.onAdClosed();
+                                            startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                                            finish();
+                                        }
+                                    });
+                                } else {
+                                    startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                                    finish();
+                                }
                                 /*startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
                                 finish();*/
                             }
@@ -126,7 +149,7 @@ public class TutorialActivity extends AppCompatActivity {
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
+                /*Admod.getInstance().forceShowInterstitial(TutorialActivity.this, mInterstitialTutorial, new AdCallback() {
                     @Override
                     public void onAdClosed() {
                         startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
@@ -137,14 +160,27 @@ public class TutorialActivity extends AppCompatActivity {
                     public void onAdFailedToLoad(LoadAdError i) {
                         onAdClosed();
                     }
-                });
+                });*/
+                if (AppIronSource.getInstance().isInterstitialReady()) {
+                    AppIronSource.getInstance().showInterstitial(TutorialActivity.this, new AdCallback() {
+                        @Override
+                        public void onAdClosed() {
+                            super.onAdClosed();
+                            startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                            finish();
+                        }
+                    });
+                } else {
+                    startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+                    finish();
+                }
                 /*startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
                 finish();*/
             }
         });
     }
 
-    private void loadInterTutorial() {
+    /*private void loadInterTutorial() {
         Admod.getInstance().getInterstitalAds(this, getString(R.string.inter_tutorial), new AdCallback() {
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
@@ -157,5 +193,5 @@ public class TutorialActivity extends AppCompatActivity {
                 super.onAdFailedToLoad(i);
             }
         });
-    }
+    }*/
 }
